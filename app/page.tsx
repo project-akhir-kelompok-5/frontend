@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 interface Location {
   latitude: number | null;
   longitude: number | null;
+
 }
 
 const lokasiSalah = {
