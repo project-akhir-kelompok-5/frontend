@@ -9,18 +9,38 @@ import {
   FunnelIcon,
   MagnifyingGlassIcon,
   ChevronDownIcon,
-  MapPinIcon
+  MapPinIcon,
 } from "@heroicons/react/20/solid";
+import { signOut, useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const { data: session, status } = useSession();
+  console.log("session:",  session);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "loading") return; // Do nothing while loading
+    if (!session) {
+      router.push("/login"); // Redirect to login if no session
+    }
+  }, [session, status, router]);
+
+  if (status === "loading") {
+    return <div>Loading...</div>; // Optionally render a loading state while checking session
+  }
   return (
     <main className="w-screen h-full">
       <div className="w-full px-10 py-5 border-b bg-[#023E8A] flex flex-row justify-between items-center">
         <h1 className="font-quick text-white text-2xl font-medium">HadirPak</h1>
         <div className="flex gap-5">
-          <a href="" className="font-quick text-white text-base">
-            Dashboard
-          </a>
+          <button
+            onClick={() => signOut({ redirect: false })}
+            className="font-quick text-white text-base"
+          >
+            Logout
+          </button>
           <a href="" className="font-quick text-white text-base">
             Attendance
           </a>
@@ -213,8 +233,10 @@ export default function Home() {
               </Td>
               <Td>
                 <div className="flex gap-2">
-                  <MapPinIcon className="text-[#FFBC25] w-5"/>
-                  <p className="font-quick font-semibold text-[#212529]">View Location</p>
+                  <MapPinIcon className="text-[#FFBC25] w-5" />
+                  <p className="font-quick font-semibold text-[#212529]">
+                    View Location
+                  </p>
                 </div>
               </Td>
             </Tbody>

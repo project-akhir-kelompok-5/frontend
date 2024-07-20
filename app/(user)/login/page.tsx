@@ -3,11 +3,13 @@ import Image from "next/image";
 import logo from "/public/images/logo-SMK.png";
 import text from "/public/images/text.png";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as yup from "yup";
 import useAuthModule from "../lib";
 import { LoginPayload } from "../interface/interface";
 import { useFormik, Form, FormikProvider, getIn } from "formik";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export const loginSchema = yup.object().shape({
   email: yup
@@ -25,8 +27,17 @@ export const loginSchema = yup.object().shape({
 });
 
 const Login = () => {
+  const { data: session } = useSession();
+  console.log('session:', session);
   const { useLogin } = useAuthModule();
+  const router = useRouter();
   const { mutate, isLoading } = useLogin();
+  
+  useEffect(() => {
+    if (session) {
+      router.push('/');
+    }
+  }, [session, router]);
 
   const formik = useFormik<LoginPayload>({
     initialValues: loginSchema.getDefault(),
