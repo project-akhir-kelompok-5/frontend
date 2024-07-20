@@ -1,42 +1,62 @@
-import clsx from "clsx";
+import { useState, ChangeEvent, FocusEvent } from 'react';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/20/solid';
 
-interface InputProps {
-  isError?: boolean;
-  messageError?: string;
-  id: string | number;
+interface InputFieldProps {
+  type?: string;
   name: string;
-  value: string | number | undefined;
+  placeholder: string;
+  value: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (e: FocusEvent<HTMLInputElement>) => void;
+  error?: string;
+  touched?: boolean;
+  isPassword?: boolean;
 }
 
-const InputText: React.FC<
-  InputProps & React.InputHTMLAttributes<HTMLInputElement>
-> = ({
-  messageError = "wajib di isi",
-  isError = false,
-  id,
+const InputFieldAuth: React.FC<InputFieldProps> = ({
+  type = 'text',
   name,
+  placeholder,
   value,
-  ...props
+  onChange,
+  onBlur,
+  error,
+  touched,
+  isPassword = false,
 }) => {
+  const [passwordType, setPasswordType] = useState(type);
+
+  const togglePasswordVisibility = () => {
+    setPasswordType(passwordType === 'password' ? 'text' : 'password');
+  };
+
   return (
-    <section>
-      <input
-        value={value}
-        id={id}
-        name={name}
-        className={clsx(`w-full rounded px-2`, {
-          "border-red-500 border-2": isError,
-          "": !isError,
-        })}
-        {...props}
-      />
-      {isError ? (
-        <p className="text-red-500 font-bold absolute">{messageError}</p>
-      ) : (
-        <></>
+    <div className="flex flex-col gap-2 ">
+      <div className={`flex border-b border-[#6C757D] border-x-0 border-t-0 focus:border-[#6C757D]`}>
+        <input
+          type={isPassword ? passwordType : type}
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          className="w-full font-quick font-medium border-none focus:ring-0"
+        />
+        {isPassword && (
+          <button type="button" onClick={togglePasswordVisibility}>
+            {passwordType === 'password' ? (
+              <EyeIcon className="w-6 cursor-pointer text-gray-300 hover:text-black ease-in-out duration-150" />
+            ) : (
+              <EyeSlashIcon className="w-6 cursor-pointer text-gray-300 hover:text-black ease-in-out duration-150" />
+            )}
+          </button>
+        )}
+      </div>
+      {touched && error && (
+        <div className="text-red-500 text-xs">{error}</div>
       )}
-    </section>
+    </div>
   );
 };
 
-export default InputText;
+export default InputFieldAuth;
