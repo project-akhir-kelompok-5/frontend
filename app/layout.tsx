@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, session }: NextAuthProps) {
   return (
     <html lang="en" data-theme="">
-      <body className={""}>
+      <body className={`${quicksand.variable}`}>
         <NextAuthProvider session={session}>
           <ReactQuery>
             {children}

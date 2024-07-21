@@ -1,3 +1,9 @@
 "use client"
 
-sfc
+const Check = () => {
+    return ( 
+        <section className=""></section>
+    );
+}
+ 
+export default Check;
