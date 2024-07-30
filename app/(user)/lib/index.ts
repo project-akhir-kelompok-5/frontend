@@ -3,7 +3,7 @@ import { axiosClient } from "@/lib/axiosClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { LoginPayload, LoginResponse } from "../interface/interface";
+import { LoginPayload, LoginResponse, LupaPasswordPayload, ResetPasswordPayload, ResetPasswordRespone } from "../interface/interface";
 import { useToast } from "@/hook";
 
 const useAuthModule = () => {
@@ -51,7 +51,75 @@ const useAuthModule = () => {
     return { mutate, isLoading };
   };
 
-  return { useLogin };
+  const lupaPassword = async (
+    payload: LupaPasswordPayload
+  ): Promise<LoginResponse> => {
+    return axiosClient
+      .post("auth/lupa-password", payload)
+      .then((res) => res.data);
+  };
+
+  const extractNameFromEmail = (email: string): string => {
+    const name = email.split('@')[0];
+    return name;
+  };
+  
+
+  const useLupaPassword = () => {
+    const { mutate, isLoading } = useMutation(
+      (payload: LupaPasswordPayload) => lupaPassword(payload),
+      {
+        onSuccess: (res: any) => {
+          console.log(res.data);
+          const name = extractNameFromEmail(res.data.email);
+          console.log(name);
+          router.push(`/check/${res.data.token}/${name}`);
+        },
+        onError: (error: any) => {
+          if (error.response.status == 422) {
+            toastWarning(error.response.data.message);
+          } else {
+            toastError();
+          }
+        },
+      }
+    );
+
+    return { mutate, isLoading };
+  }; 
+
+  const ResetPassword = async (
+    payload: ResetPasswordPayload,
+    id: number,
+    token: any
+  ): Promise<ResetPasswordRespone> => {
+    return axiosClient
+      .post(`auth/reset-password/${id}/${token}`, payload)
+      .then((res) => res.data);
+  };
+
+  const useResetPassword = (id: number, token: any) => {
+    const { mutate, isLoading } = useMutation(
+      (payload: ResetPasswordPayload) => ResetPassword(payload, id, token),
+      {
+        onSuccess: (res) => {
+          toastSuccess(res.message);
+          router.push("/login");
+        },
+        onError: (error: any) => {
+          if (error.response.status == 422) {
+            toastWarning(error.response.data.message);
+          } else {
+            toastError();
+          }
+        },
+      }
+    );
+
+    return { mutate, isLoading };
+  };
+
+  return { useLogin, useLupaPassword, useResetPassword };
 };
 
 export default useAuthModule;

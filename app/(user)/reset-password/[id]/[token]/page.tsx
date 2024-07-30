@@ -12,21 +12,28 @@ import { useState } from "react";
 import Link from "next/link";
 import InputFieldAuth from "@/component/InputText";
 import * as yup from "yup";
-import useAuthModule from "../lib";
 import { Form, FormikProvider, getIn, useFormik } from "formik";
-import { LupaPasswordPayload } from "../interface/interface";
 import { ClipLoader } from "react-spinners";
+import useAuthModule from "@/app/(user)/lib";
+import { ResetPasswordPayload } from "@/app/(user)/interface/interface";
 
-export const LupaPasswordScehema = yup.object().shape({
-  email: yup
+export const ResetPasswordScehema = yup.object().shape({
+  new_password: yup
     .string()
     .nullable()
     .default("")
-    .email("Gunakan format email")
-    .required("Email wajib di isi"),
+    .required("Wajib isi")
+    .min(8, "Minimal 8 karakater"),
+
+  confirm_password: yup
+    .string()
+    .nullable()
+    .default("")
+    .required("Wajib isi")
+    .min(8, "Minimal 8 karakater"),
 });
 
-const Forgot = () => {
+const ResetPassword = ({ params }: { params: { id: number; token: any } }) => {
   const [passwordType, setPasswordType] = useState("password");
   const [value, setValues] = useState({ password: "" });
 
@@ -34,11 +41,11 @@ const Forgot = () => {
     setPasswordType(passwordType === "password" ? "text" : "password");
   };
 
-  const { useLupaPassword } = useAuthModule();
-  const { mutate, isLoading } = useLupaPassword();
-  const formik = useFormik<LupaPasswordPayload>({
-    initialValues: LupaPasswordScehema.getDefault(),
-    validationSchema: LupaPasswordScehema,
+  const { useResetPassword } = useAuthModule();
+  const { mutate, isLoading } = useResetPassword(params.id, params.token);
+  const formik = useFormik<ResetPasswordPayload>({
+    initialValues: ResetPasswordScehema.getDefault(),
+    validationSchema: ResetPasswordScehema,
     enableReinitialize: true,
     onSubmit: (payload) => {
       mutate(payload);
@@ -60,10 +67,11 @@ const Forgot = () => {
         <div className="w-full md:w-auto px-6 md:mt-[215px] mt-[117px]">
           <div className="flex flex-col gap-2 w-[423px]">
             <h1 className="font-quick font-medium text-2xl md:text-4xl">
-              Forgot Password?
+              Reset Password
             </h1>
             <p className="font-quick text-[#6C757D] text-lg md:text-[18px]">
-              Enter your email and we`ll send you the reset instructions.
+              Enter your new password, of course must be diffrent than before
+              you used and you all ready set!.
             </p>
           </div>
           <FormikProvider value={formik}>
@@ -72,13 +80,26 @@ const Forgot = () => {
                 <div className="w-full flex flex-col gap-8 mt-10 md:mt-20 mb-3 md:mb-9">
                   <InputFieldAuth
                     type="text"
-                    name="email"
-                    placeholder="Email"
-                    value={values.email}
+                    name="new_password"
+                    placeholder="New password"
+                    value={values.new_password}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={errors.email}
-                    touched={touched.email}
+                    error={errors.new_password}
+                    touched={touched.new_password}
+                    isPassword={true}
+                  />
+                  <InputFieldAuth
+                    type="text"
+                    name="confirm_password"
+                    placeholder="Confirm password"
+                    value={values.confirm_password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={errors.confirm_password}
+                    touched={touched.confirm_password}
+                    isPassword={true}
+
                   />
                 </div>
                 <button
@@ -114,4 +135,4 @@ const Forgot = () => {
   );
 };
 
-export default Forgot;
+export default ResetPassword;

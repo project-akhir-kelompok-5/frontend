@@ -281,7 +281,7 @@ const Dashboard = () => {
         </div>
         {/*  */}
         <div className="overflow-x-auto my-6">
-          <table className="min-w-full bg-white">
+          <table className="min-w-full bg-white font-quick">
             <thead>
               <tr className="bg-[#023E8A] text-white">
                 <th className="w-1/12 py-2 px-4">NO</th>
@@ -290,36 +290,36 @@ const Dashboard = () => {
                 <th className="w-1/12 py-2 px-4">SUBJECT CODE</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-black">
               <tr>
-                <td className="border px-4 py-2">1</td>
-                <td className="border px-4 py-2">Ihsan Santana Wibawa</td>
-                <td className="border px-4 py-2">Fullstack Developer</td>
-                <td className="border px-4 py-2">A1</td>
+                <td className="border border-black px-4 py-2">1</td>
+                <td className="border border-black px-4 py-2">Ihsan Santana Wibawa</td>
+                <td className="border border-black px-4 py-2">Fullstack Developer</td>
+                <td className="border border-black px-4 py-2">A1</td>
               </tr>
               <tr>
-                <td className="border px-4 py-2">2</td>
-                <td className="border px-4 py-2">Akbar Rismawan Tanjung</td>
-                <td className="border px-4 py-2">Database</td>
-                <td className="border px-4 py-2">B1</td>
+                <td className="border border-black px-4 py-2">2</td>
+                <td className="border border-black px-4 py-2">Akbar Rismawan Tanjung</td>
+                <td className="border border-black px-4 py-2">Database</td>
+                <td className="border border-black px-4 py-2">B1</td>
               </tr>
               <tr>
-                <td className="border px-4 py-2">3</td>
-                <td className="border px-4 py-2">Dedi Hidayatullah</td>
-                <td className="border px-4 py-2">Indonesian Language</td>
-                <td className="border px-4 py-2">C1</td>
+                <td className="border border-black px-4 py-2">3</td>
+                <td className="border border-black px-4 py-2">Dedi Hidayatullah</td>
+                <td className="border border-black px-4 py-2">Indonesian Language</td>
+                <td className="border border-black px-4 py-2">C1</td>
               </tr>
               <tr>
-                <td className="border px-4 py-2">4</td>
-                <td className="border px-4 py-2">Zidni Ilman</td>
-                <td className="border px-4 py-2">P5</td>
-                <td className="border px-4 py-2">C1</td>
+                <td className="border border-black px-4 py-2">4</td>
+                <td className="border border-black px-4 py-2">Zidni Ilman</td>
+                <td className="border border-black px-4 py-2">P5</td>
+                <td className="border border-black px-4 py-2">C1</td>
               </tr>
               <tr>
-                <td className="border px-4 py-2">5</td>
-                <td className="border px-4 py-2">Darmansyah Yamin</td>
-                <td className="border px-4 py-2"></td>
-                <td className="border px-4 py-2">C1</td>
+                <td className="border border-black px-4 py-2">5</td>
+                <td className="border border-black px-4 py-2">Darmansyah Yamin</td>
+                <td className="border border-black px-4 py-2"></td>
+                <td className="border border-black px-4 py-2">C1</td>
               </tr>
             </tbody>
           </table>

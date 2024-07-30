@@ -21,16 +21,16 @@ export default function Home() {
   console.log("session:", session);
   const router = useRouter();
 
-  useEffect(() => {
-    if (status === "loading") return; // Do nothing while loading
-    if (!session) {
-      router.push("/login"); // Redirect to login if no session
-    }
-  }, [session, status, router]);
+  // useEffect(() => {
+  //   if (status === "loading") return; // Do nothing while loading
+  //   if (!session) {
+  //     router.push("/login"); // Redirect to login if no session
+  //   }
+  // }, [session, status, router]);
 
-  if (status === "loading") {
-    return <div>Loading...</div>; // Optionally render a loading state while checking session
-  }
+  // if (status === "loading") {
+  //   return <div>Loading...</div>; // Optionally render a loading state while checking session
+  // }
   return (
     <main className="w-screen h-full">
       <div className="w-full px-10 py-5 border-b bg-[#023E8A] flex flex-row justify-between items-center">
@@ -68,7 +68,7 @@ export default function Home() {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a className="justify-between">
+              <a className="justify-between" href="/profile">
                 Profile
                 <span className="badge">New</span>
               </a>
