@@ -46,7 +46,6 @@ const Dashboard = () => {
       {
         data: [25, 50, 25],
         backgroundColor: ["#FFBC25", "#023E8A", "#0077B6"], // Warna kuning, biru, biru tua
-        
       },
     ],
   };
@@ -55,15 +54,14 @@ const Dashboard = () => {
     animation: {
       animateRotate: true, // Mengaktifkan animasi rotasi
       animateScale: false, // Menonaktifkan animasi skala
-
     },
     plugins: {
       legend: {
         display: true,
-        position: "bottom" ,
+        position: "bottom",
         labels: {
           font: {
-            family: 'sans-serif', // Ganti dengan font yang diinginkan
+            family: "sans-serif", // Ganti dengan font yang diinginkan
             size: 12,
             // weight: 'bold',
           },
@@ -74,7 +72,7 @@ const Dashboard = () => {
           label: (context: any) => {
             const label = context.label || "";
             const value = context.raw || 0;
-            return`${label}: ${value}%`;
+            return `${label}: ${value}%`;
           },
         },
       },
@@ -201,7 +199,7 @@ const Dashboard = () => {
             <hr className="w-full border border-[#F0F0F0]" />
             <div className="my-9">
               <div className="w-[296px]">
-                <DoughnutChart data={data} options={options}/>
+                <DoughnutChart data={data} options={options} />
               </div>
             </div>
           </div>
@@ -227,14 +225,16 @@ const Dashboard = () => {
             <hr className="w-full border border-[#F0F0F0]" />
             <div className="my-9">
               <div className="w-[296px]">
-                <DoughnutChart data={data} options={options}/>
+                <DoughnutChart data={data} options={options} />
               </div>
             </div>
           </div>
           <div className="border shadow-lg rounded-md w-[400px] h-[480px] flex flex-col justify-center items-center">
             <div className="flex w-full justify-between my-9 px-9">
               <div className="">
-                <h1 className="font-quick font-medium text-2xl">Semester Basis</h1>
+                <h1 className="font-quick font-medium text-2xl">
+                  Semester Basis
+                </h1>
                 <p className="font-quick text-[#495057] text-sm font-medium mt-2">
                   Attendace Graphic
                 </p>
@@ -253,22 +253,76 @@ const Dashboard = () => {
             <hr className="w-full border border-[#F0F0F0]" />
             <div className="my-9">
               <div className="w-[296px]">
-                <DoughnutChart data={data} options={options}/>
+                <DoughnutChart data={data} options={options} />
               </div>
             </div>
           </div>
         </div>
         {/*  */}
         <div className="flex w-full justify-between mb-6">
-          <h1 className="font-quick font-medium text-lg text-[#495057] w-[708px]">This will kindly remind you of your attendance each time you clock in, whether it be weekly, monthly, or per semester.</h1>
-          <button className="btn btn-outline font-semibold text-[16px]">Download Recap</button>
+          <h1 className="font-quick font-medium text-lg text-[#495057] w-[708px]">
+            This will kindly remind you of your attendance each time you clock
+            in, whether it be weekly, monthly, or per semester.
+          </h1>
+          <button className="btn btn-outline font-semibold text-[16px]">
+            Download Recap
+          </button>
         </div>
         {/*  */}
         <hr className="w-full border border-[#6C757D]" />
         {/*  */}
-        <div className="flex w-full justify-between mb-6">
-          <h1 className="font-quick font-semibold text-2xl text-[#212529]">Schedule</h1>
-          <button className="btn btn-outline font-semibold text-[16px]">Download Recap</button>
+        <div className="flex w-full justify-between mt-12">
+          <h1 className="font-quick font-semibold text-2xl text-[#212529]">
+            Schedule
+          </h1>
+          <button className="btn btn-outline font-semibold text-[16px]">
+            Download Recap
+          </button>
+        </div>
+        {/*  */}
+        <div className="overflow-x-auto my-6">
+          <table className="min-w-full bg-white">
+            <thead>
+              <tr className="bg-[#023E8A] text-white">
+                <th className="w-1/12 py-2 px-4">NO</th>
+                <th className="w-4/12 py-2 px-4">TEACHER`S NAME</th>
+                <th className="w-4/12 py-2 px-4">SUBJECT NAME</th>
+                <th className="w-1/12 py-2 px-4">SUBJECT CODE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border px-4 py-2">1</td>
+                <td className="border px-4 py-2">Ihsan Santana Wibawa</td>
+                <td className="border px-4 py-2">Fullstack Developer</td>
+                <td className="border px-4 py-2">A1</td>
+              </tr>
+              <tr>
+                <td className="border px-4 py-2">2</td>
+                <td className="border px-4 py-2">Akbar Rismawan Tanjung</td>
+                <td className="border px-4 py-2">Database</td>
+                <td className="border px-4 py-2">B1</td>
+              </tr>
+              <tr>
+                <td className="border px-4 py-2">3</td>
+                <td className="border px-4 py-2">Dedi Hidayatullah</td>
+                <td className="border px-4 py-2">Indonesian Language</td>
+                <td className="border px-4 py-2">C1</td>
+              </tr>
+              <tr>
+                <td className="border px-4 py-2">4</td>
+                <td className="border px-4 py-2">Zidni Ilman</td>
+                <td className="border px-4 py-2">P5</td>
+                <td className="border px-4 py-2">C1</td>
+              </tr>
+              <tr>
+                <td className="border px-4 py-2">5</td>
+                <td className="border px-4 py-2">Darmansyah Yamin</td>
+                <td className="border px-4 py-2"></td>
+                <td className="border px-4 py-2">C1</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </main>
