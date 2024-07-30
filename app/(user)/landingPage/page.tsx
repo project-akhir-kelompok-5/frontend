@@ -18,7 +18,7 @@ import {
   MapPinIcon,
   Bars3Icon
 } from "@heroicons/react/20/solid";
-import Navbar from "@/component/Navbar";
+import NavbarResponsive from "@/component/NavbarResponsive";
 
 const LandingPage = () => {
   return (
@@ -45,7 +45,7 @@ const LandingPage = () => {
           Sign Up
         </button>
         {/*  */}
-        <Navbar/>
+        <NavbarResponsive/>
         {/*  */}
       </div>
       {/* --------------------- navbar ------------------ */}
@@ -156,7 +156,6 @@ const LandingPage = () => {
         </div>
       </div>
       {/*  */}
-
       <Footer />
     </main>
   );

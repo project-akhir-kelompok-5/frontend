@@ -14,10 +14,11 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import hadirpak from "/public/images/HadirPak_putih.png";
 
 export default function Home() {
   const { data: session, status } = useSession();
-  console.log("session:",  session);
+  console.log("session:", session);
   const router = useRouter();
 
   // useEffect(() => {
@@ -33,15 +34,14 @@ export default function Home() {
   return (
     <main className="w-screen h-full">
       <div className="w-full px-10 py-5 border-b bg-[#023E8A] flex flex-row justify-between items-center">
-        <h1 className="font-quick text-white text-2xl font-medium">HadirPak</h1>
-        <div className="flex gap-5">
-          <button
-            onClick={() => signOut({ redirect: false })}
-            className="font-quick text-white text-base"
-          >
-            Logout
-          </button>
+        <picture>
+          <Image src={hadirpak} alt="hadir" />
+        </picture>
+        <div className="flex gap-10">
           <a href="" className="font-quick text-white text-base">
+            Dashboard
+          </a>
+          <a href="" className="font-quick text-[#FFBC25] text-base">
             Attendance
           </a>
           <a href="" className="font-quick text-white text-base">
@@ -232,7 +232,7 @@ export default function Home() {
                 <span>15:00</span>
               </Td>
               <Td>
-                <div className="flex gap-2">
+                <div className="flex gap-2 pl-[30rem] py-[59px]">
                   <MapPinIcon className="text-[#FFBC25] w-5" />
                   <p className="font-quick font-semibold text-[#212529]">
                     View Location
