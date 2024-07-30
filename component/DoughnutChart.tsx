@@ -22,7 +22,7 @@ interface DoughnutChartProps {
 }
 
 const DoughnutChart: React.FC<DoughnutChartProps> = ({ data, options }) => {
-  return <Doughnut data={data} options={options} />;
+  return <Doughnut data={data} options={options} className='font-quick'/>;
 };
 
 export default DoughnutChart; 

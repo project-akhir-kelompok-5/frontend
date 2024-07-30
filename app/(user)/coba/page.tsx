@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <h1>Radial Progress with Chart.js</h1>
-      <div className="w-[500px]">
+      <div className="w-[296px]">
         <DoughnutChart data={data} options={options} />
       </div>
     </div>
