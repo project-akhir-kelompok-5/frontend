@@ -11,14 +11,8 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 interface DoughnutChartProps {
-  data: {
-    labels: string[];
-    datasets: {
-      data: number[];
-      backgroundColor: string[];
-    }[];
-  };
-  options?: ChartJS.ChartOptions | any;
+  data: any;
+  options?: any;
 }
 
 const DoughnutChart: React.FC<DoughnutChartProps> = ({ data, options }) => {

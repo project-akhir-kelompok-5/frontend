@@ -15,11 +15,13 @@ import { signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import hadirpak from "/public/images/HadirPak_putih.png";
+import CopyToClipboardButton from "@/component/CopyToClipboardButton";
 
 export default function Home() {
   const { data: session, status } = useSession();
   console.log("session:", session);
   const router = useRouter();
+  const textToCopy = 'A78P1';
 
   // useEffect(() => {
   //   if (status === "loading") return; // Do nothing while loading
@@ -38,13 +40,13 @@ export default function Home() {
           <Image src={hadirpak} alt="hadir" />
         </picture>
         <div className="flex gap-10">
-          <a href="" className="font-quick text-white text-base">
+          <a href="/dashboard" className="font-quick text-white text-base">
             Dashboard
           </a>
-          <a href="" className="font-quick text-[#FFBC25] text-base">
+          <a href="/" className="font-quick text-[#FFBC25] text-base">
             Attendance
           </a>
-          <a href="" className="font-quick text-white text-base">
+          <a href="#" className="font-quick text-white text-base">
             Userdata
           </a>
         </div>
@@ -52,14 +54,11 @@ export default function Home() {
           <div
             tabIndex={0}
             role="button"
-            className="flex items-center h-10 w-20 bg-blue-700 rounded-r-3xl rounded-l-md"
+            className="btn btn-ghost btn-circle avatar"
           >
-            <div>
-              <ChevronDownIcon className="w-8 text-white" />
-            </div>
-            <div className="relative w-[50px] h-[50px] rounded-full overflow-hidden">
+            <div className="rounded-full">
               <picture>
-                <Image src={profile} alt="user" width={50} height={50} />
+                <Image src={profile} alt="user" width={80} height={80} />
               </picture>
             </div>
           </div>
@@ -68,16 +67,13 @@ export default function Home() {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a className="justify-between" href="/profile">
-                Profile
-                <span className="badge">New</span>
-              </a>
+              <a className="justify-between">Profile</a>
             </li>
             <li>
               <a>Settings</a>
             </li>
             <li>
-              <a onClick={() => signOut()}>Logout</a>
+              <a>Logout</a>
             </li>
           </ul>
         </div>
@@ -86,12 +82,22 @@ export default function Home() {
 
       <div className="px-10 w-full h-screen">
         <div className="w-full my-10 flex flex-col gap-3">
-          <h1 className="font-quick text-3xl font-medium">Dashboard</h1>
+          <h1 className="font-quick text-3xl font-medium">
+            Hi, Akbar Rismawan
+          </h1>
           <div className="flex flex-row gap-2">
             <picture>
               <Image src={logo} alt="user" width={35} height={35} />
             </picture>
-            <h1 className="font-quick text-2xl">SMK Madinatul Quran</h1>
+            <h1 className="font-quick text-2xl">
+              SMK Madinatul Quran | Teacher
+            </h1>
+          </div>
+          <div className="flex gap-2">
+            <h1 className="font-quick text-2xl font-medium text-[#2F3E46]">
+              Class code : <span className="font-semibold">{textToCopy}</span>
+            </h1>
+            <CopyToClipboardButton text={textToCopy}/>
           </div>
         </div>
         {/* ------------ dashboard --------------- */}

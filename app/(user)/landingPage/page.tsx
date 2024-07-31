@@ -22,7 +22,7 @@ import NavbarResponsive from "@/component/NavbarResponsive";
 
 const LandingPage = () => {
   return (
-    <main className="w-screen h-screen overflow-x-hidden">
+    <main className="w-screen h-screen overflow-x-hidden font-quick">
       <div className="w-screen px-10 py-5 border-b bg-[#023E8A] flex flex-row justify-between items-center">
         <picture>
           <Image src={hadirpak} alt="hadir" />
@@ -67,7 +67,7 @@ const LandingPage = () => {
             <Image src={img_1} alt="lektop" className="w-96 md:w-[100%]"/>
           </picture>
         </div>
-        <div className="flex flex-col items-center w-[558px] md:px-0 px-10">
+        <div className="flex flex-col items-center gap-6 w-[558px] md:px-0 px-10">
           <h1 className="text-[#0077B6] font-medium md:text-[50px] text-5xl mb-5 md:mb-0 font-quick">
             About us
           </h1>

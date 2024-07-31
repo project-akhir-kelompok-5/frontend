@@ -17,6 +17,9 @@ import { useRouter } from "next/navigation";
 import hadirpak from "/public/images/HadirPak_putih.png";
 import DoughnutChart from "@/component/DoughnutChart";
 import React from "react";
+import Footer from "@/component/Footer";
+import { Chart, ChartOptions, LegendItem } from "chart.js";
+import { ChartData } from "chart.js";
 
 const Dashboard = () => {
   const [seconds, setSeconds] = useState(59);
@@ -40,36 +43,68 @@ const Dashboard = () => {
     return () => clearInterval(countdown);
   }, [seconds, minutes, hours]);
 
-  const data = {
-    labels: ["Hadir", "Izin", "Alpha"],
+  const data: ChartData = {
+    
+    labels: ["Attendance", "Permisson", "Absent"],
     datasets: [
       {
+    
+        borderWidth: 0,
         data: [25, 50, 25],
         backgroundColor: ["#FFBC25", "#023E8A", "#0077B6"], // Warna kuning, biru, biru tua
       },
     ],
   };
 
-  const options = {
-    animation: {
-      animateRotate: true, // Mengaktifkan animasi rotasi
-      animateScale: false, // Menonaktifkan animasi skala
-    },
+  const options: ChartOptions = {
     plugins: {
+
       legend: {
+        rtl: false,
         display: true,
         position: "bottom",
         labels: {
+          usePointStyle: true, // Mengubah label menjadi lingkaran
+          boxWidth: 8, // Ukuran kotak untuk legend, bisa disesuaikan
+          boxHeight: 8, // Ukuran kotak untuk legend, bisa disesuaikan
+          padding: 16, // Menambahkan jarak antar label secara keseluruhan
+          pointStyle: "circle", // Bentuk label lingkaran
+          textAlign: "left",
           font: {
             family: "sans-serif", // Ganti dengan font yang diinginkan
             size: 12,
-            // weight: 'bold',
+          },
+          generateLabels: function (chart: Chart): LegendItem[] {
+            const data = chart.data;
+            if (data.labels && data.datasets) {
+              return data.labels.map((label, index) => {
+                const meta = chart.getDatasetMeta(0);
+                const style = meta.controller.getStyle(index, false);
+                return {
+                  text: `${label}  `, // Menambahkan spasi di awal label untuk jarak antara lingkaran dan teks
+                  fillStyle: style.backgroundColor,
+                  hidden: !chart.getDataVisibility(index),
+                  lineCap: style.borderCapStyle,
+                  lineDash: style.borderDash,
+                  lineDashOffset: style.borderDashOffset,
+                  lineJoin: style.borderJoinStyle,
+                  lineWidth: style.borderWidth,
+                  strokeStyle: style.borderColor,
+                  pointStyle: style.pointStyle,
+                  rotation: style.rotation,
+                  textAlign: 'left',
+                  datasetIndex: 0,
+                  index: index,
+                };
+              });
+            }
+            return [];
           },
         },
       },
       tooltip: {
         callbacks: {
-          label: (context: any) => {
+          label: function (context) {
             const label = context.label || "";
             const value = context.raw || 0;
             return `${label}: ${value}%`;
@@ -78,11 +113,11 @@ const Dashboard = () => {
       },
       datalabels: {
         color: "#fff",
-        formatter: (value: number) => {
-          return `${value}%`; // Menampilkan nilai data sebagai persentase
+        formatter: function (value) {
+          return `${value}%`;
         },
         font: {
-          weight: "bold" as const,
+          weight: "bold",
         },
       },
     },
@@ -98,7 +133,7 @@ const Dashboard = () => {
           <a href="" className="font-quick text-[#FFBC25] text-base">
             Dashboard
           </a>
-          <a href="" className="font-quick text-white text-base">
+          <a href="/" className="font-quick text-white text-base">
             Attendance
           </a>
           <a href="" className="font-quick text-white text-base">
@@ -109,14 +144,11 @@ const Dashboard = () => {
           <div
             tabIndex={0}
             role="button"
-            className="flex items-center h-10 w-20 bg-blue-700 rounded-r-3xl rounded-l-md"
+            className="btn btn-ghost btn-circle avatar"
           >
-            <div>
-              <ChevronDownIcon className="w-8 text-white" />
-            </div>
-            <div className="relative w-[50px] h-[50px] rounded-full overflow-hidden">
+            <div className="rounded-full">
               <picture>
-                <Image src={profile} alt="user" width={50} height={50} />
+                <Image src={profile} alt="user" width={80} height={80} />
               </picture>
             </div>
           </div>
@@ -125,10 +157,7 @@ const Dashboard = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </a>
+              <a className="justify-between">Profile</a>
             </li>
             <li>
               <a>Settings</a>
@@ -177,7 +206,7 @@ const Dashboard = () => {
         <hr className="w-full border border-[#6C757D] mt-8" />
         {/*  */}
         <div className="flex md:flex-row flex-col my-8 justify-evenly">
-          <div className="border shadow-lg rounded-md w-[400px] h-[480px] flex flex-col justify-center items-center">
+          <div className="border shadow-lg rounded-md h-[480px] flex flex-col justify-center items-center">
             <div className="flex w-full justify-between my-9 px-9">
               <div className="">
                 <h1 className="font-quick font-medium text-2xl">Weekly</h1>
@@ -197,13 +226,13 @@ const Dashboard = () => {
               </svg>
             </div>
             <hr className="w-full border border-[#F0F0F0]" />
-            <div className="my-9">
+            <div className="my-9 mx-[72px]">
               <div className="w-[296px]">
                 <DoughnutChart data={data} options={options} />
               </div>
             </div>
           </div>
-          <div className="border shadow-lg rounded-md w-[400px] h-[480px] flex flex-col justify-center items-center">
+          <div className="border shadow-lg rounded-md h-[480px] flex flex-col justify-center items-center">
             <div className="flex w-full justify-between my-9 px-9">
               <div className="">
                 <h1 className="font-quick font-medium text-2xl">Monthly</h1>
@@ -223,13 +252,13 @@ const Dashboard = () => {
               </svg>
             </div>
             <hr className="w-full border border-[#F0F0F0]" />
-            <div className="my-9">
+            <div className="my-9 mx-[72px]">
               <div className="w-[296px]">
                 <DoughnutChart data={data} options={options} />
               </div>
             </div>
           </div>
-          <div className="border shadow-lg rounded-md w-[400px] h-[480px] flex flex-col justify-center items-center">
+          <div className="border shadow-lg rounded-md h-[480px] flex flex-col justify-center items-center">
             <div className="flex w-full justify-between my-9 px-9">
               <div className="">
                 <h1 className="font-quick font-medium text-2xl">
@@ -251,7 +280,7 @@ const Dashboard = () => {
               </svg>
             </div>
             <hr className="w-full border border-[#F0F0F0]" />
-            <div className="my-9">
+            <div className="my-9 mx-[72px]">
               <div className="w-[296px]">
                 <DoughnutChart data={data} options={options} />
               </div>
@@ -280,7 +309,78 @@ const Dashboard = () => {
           </button>
         </div>
         {/*  */}
-        <div className="overflow-x-auto my-6">
+        <div className="mt-6 font-quick">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 bg-blue-800 text-white">Clock</th>
+                <th className="py-2 px-4 bg-blue-800 text-white">X RPL</th>
+                <th className="py-2 px-4 bg-blue-800 text-white">X TKJ</th>
+                <th className="py-2 px-4 bg-blue-800 text-white">XI RPL</th>
+                <th className="py-2 px-4 bg-blue-800 text-white">XI TKJ</th>
+                <th className="py-2 px-4 bg-blue-800 text-white">XII RPL</th>
+                <th className="py-2 px-4 bg-blue-800 text-white">XII TKJ</th>
+              </tr>
+            </thead>
+            <tbody className="font-semibold text-lg">
+              <tr>
+                <td className="border-t py-2 px-4">07.00 - 08.30</td>
+                <td className="border-t py-2 px-4">A1</td>
+                <td className="border-t py-2 px-4 text-blue-600">B2</td>
+                <td className="border-t py-2 px-4">C1</td>
+                <td className="border-t py-2 px-4">A1</td>
+                <td className="border-t py-2 px-4 text-blue-600">B2</td>
+                <td className="border-t py-2 px-4">C1</td>
+              </tr>
+              <tr>
+                <td className="border-t py-2 px-4">08.30 - 10.30</td>
+                <td className="border-t py-2 px-4">A1</td>
+                <td className="border-t py-2 px-4 text-blue-600">B2</td>
+                <td className="border-t py-2 px-4">C1</td>
+                <td className="border-t py-2 px-4">A1</td>
+                <td className="border-t py-2 px-4 text-blue-600">B2</td>
+                <td className="border-t py-2 px-4">C1</td>
+              </tr>
+              <tr>
+                <td className="border-t py-2 px-4">10.30 - 11.30</td>
+                <td className="border-t py-2 px-4">A1</td>
+                <td className="border-t py-2 px-4 text-blue-600">B2</td>
+                <td className="border-t py-2 px-4">C1</td>
+                <td className="border-t py-2 px-4">A1</td>
+                <td className="border-t py-2 px-4 text-blue-600">B2</td>
+                <td className="border-t py-2 px-4">C1</td>
+              </tr>
+              <tr>
+                <td className="border-t py-2 px-4">11.30 - 13.15</td>
+                <td className="border-t py-2 px-4" colSpan={6}>
+                  Rest
+                </td>
+              </tr>
+              <tr>
+                <td className="border-t py-2 px-4">13.15 - 14.45</td>
+                <td className="border-t py-2 px-4">A1</td>
+                <td className="border-t py-2 px-4 text-blue-600">B2</td>
+                <td className="border-t py-2 px-4">C1</td>
+                <td className="border-t py-2 px-4">A1</td>
+                <td className="border-t py-2 px-4 text-blue-600">B2</td>
+                <td className="border-t py-2 px-4">C1</td>
+              </tr>
+            </tbody>
+          </table>
+          <div className="flex justify-between items-center px-8 py-3 bg-[#023E8A]">
+            <h1 className="text-white font-semibold text-lg">Monday schedule</h1>
+            <div className="flex gap-4">
+              <button className="px-4 py-2 border border-white text-white rounded">
+                Prev
+              </button>
+              <button className="px-4 py-2 border border-white text-white rounded">
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
+        {/*  */}
+        <div className="overflow-x-auto my-8">
           <table className="min-w-full bg-white font-quick">
             <thead>
               <tr className="bg-[#023E8A] text-white">
@@ -293,38 +393,69 @@ const Dashboard = () => {
             <tbody className="text-black">
               <tr>
                 <td className="border border-black px-4 py-2">1</td>
-                <td className="border border-black px-4 py-2">Ihsan Santana Wibawa</td>
-                <td className="border border-black px-4 py-2">Fullstack Developer</td>
+                <td className="border border-black px-4 py-2">
+                  Ihsan Santana Wibawa
+                </td>
+                <td className="border border-black px-4 py-2">
+                  Fullstack Developer
+                </td>
                 <td className="border border-black px-4 py-2">A1</td>
               </tr>
-              <tr>
-                <td className="border border-black px-4 py-2">2</td>
-                <td className="border border-black px-4 py-2">Akbar Rismawan Tanjung</td>
-                <td className="border border-black px-4 py-2">Database</td>
+              <tr className="">
+                <td className="border border-black px-4 py-2">
+                  <tbody>
+                    <tr>
+                      <td className="">2</td>
+                    </tr>
+                    <tr>{/* <td className="text-white">2</td> */}</tr>
+                  </tbody>
+                </td>
+                <td className="border border-black px-4 py-2">
+                  Akbar Rismawan Tanjung
+                </td>
+                <td className="px-4 py-2 w-full">
+                  <tbody>
+                    <tr className="border-b border-black ">
+                      <td>Database</td>
+                    </tr>
+                    <tr className="border-t border-black px-4 py-2">
+                      <td>Javascript</td>
+                    </tr>
+                  </tbody>
+                </td>
                 <td className="border border-black px-4 py-2">B1</td>
               </tr>
               <tr>
                 <td className="border border-black px-4 py-2">3</td>
-                <td className="border border-black px-4 py-2">Dedi Hidayatullah</td>
-                <td className="border border-black px-4 py-2">Indonesian Language</td>
+                <td className="border border-black px-4 py-2">
+                  Dedi Hidayatullah
+                </td>
+                <td className="border border-black px-4 py-2">
+                  Indonesian Language
+                </td>
                 <td className="border border-black px-4 py-2">C1</td>
               </tr>
               <tr>
                 <td className="border border-black px-4 py-2">4</td>
                 <td className="border border-black px-4 py-2">Zidni Ilman</td>
-                <td className="border border-black px-4 py-2">P5</td>
+                <td className="border-y border-t border-b-0 border-black"></td>
                 <td className="border border-black px-4 py-2">C1</td>
               </tr>
               <tr>
                 <td className="border border-black px-4 py-2">5</td>
-                <td className="border border-black px-4 py-2">Darmansyah Yamin</td>
-                <td className="border border-black px-4 py-2"></td>
+                <td className="border border-black px-4 py-2">
+                  Darmansyah Yamin
+                </td>
+                <td className="border-y border-b border-t-0 border-black px-4 py-2">
+                  P5
+                </td>
                 <td className="border border-black px-4 py-2">C1</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+      <Footer/>
     </main>
   );
 };
