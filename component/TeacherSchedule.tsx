@@ -1,7 +1,7 @@
 
 import React from "react";
 
-export default function CustomTable() {
+export default function TeacherTable() {
   const data = [
     {
       id: 1,
@@ -28,7 +28,9 @@ export default function CustomTable() {
     {
       id: 4,
       name: "Zidni Ilman",
-      subjects: [],
+      subjects: [
+        { subject_name: "P5", subject_code: "D1" }
+      ],
     },
     {
       id: 5,

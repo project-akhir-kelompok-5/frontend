@@ -20,6 +20,9 @@ import React from "react";
 import Footer from "@/component/Footer";
 import { Chart, ChartOptions, LegendItem } from "chart.js";
 import { ChartData } from "chart.js";
+import TableJadwal from "@/component/ScheduleTable";
+import TeacherTable from "@/component/TeacherSchedule";
+import DoughnutComponent from "./component/DONUTCHART";
 
 const Dashboard = () => {
   const [seconds, setSeconds] = useState(59);
@@ -42,86 +45,6 @@ const Dashboard = () => {
 
     return () => clearInterval(countdown);
   }, [seconds, minutes, hours]);
-
-  const data: ChartData = {
-    
-    labels: ["Attendance", "Permisson", "Absent"],
-    datasets: [
-      {
-    
-        borderWidth: 0,
-        data: [25, 50, 25],
-        backgroundColor: ["#FFBC25", "#023E8A", "#0077B6"], // Warna kuning, biru, biru tua
-      },
-    ],
-  };
-
-  const options: ChartOptions = {
-    plugins: {
-
-      legend: {
-        rtl: false,
-        display: true,
-        position: "bottom",
-        labels: {
-          usePointStyle: true, // Mengubah label menjadi lingkaran
-          boxWidth: 8, // Ukuran kotak untuk legend, bisa disesuaikan
-          boxHeight: 8, // Ukuran kotak untuk legend, bisa disesuaikan
-          padding: 16, // Menambahkan jarak antar label secara keseluruhan
-          pointStyle: "circle", // Bentuk label lingkaran
-          textAlign: "left",
-          font: {
-            family: "sans-serif", // Ganti dengan font yang diinginkan
-            size: 12,
-          },
-          generateLabels: function (chart: Chart): LegendItem[] {
-            const data = chart.data;
-            if (data.labels && data.datasets) {
-              return data.labels.map((label, index) => {
-                const meta = chart.getDatasetMeta(0);
-                const style = meta.controller.getStyle(index, false);
-                return {
-                  text: `${label}  `, // Menambahkan spasi di awal label untuk jarak antara lingkaran dan teks
-                  fillStyle: style.backgroundColor,
-                  hidden: !chart.getDataVisibility(index),
-                  lineCap: style.borderCapStyle,
-                  lineDash: style.borderDash,
-                  lineDashOffset: style.borderDashOffset,
-                  lineJoin: style.borderJoinStyle,
-                  lineWidth: style.borderWidth,
-                  strokeStyle: style.borderColor,
-                  pointStyle: style.pointStyle,
-                  rotation: style.rotation,
-                  textAlign: 'left',
-                  datasetIndex: 0,
-                  index: index,
-                };
-              });
-            }
-            return [];
-          },
-        },
-      },
-      tooltip: {
-        callbacks: {
-          label: function (context) {
-            const label = context.label || "";
-            const value = context.raw || 0;
-            return `${label}: ${value}%`;
-          },
-        },
-      },
-      datalabels: {
-        color: "#fff",
-        formatter: function (value) {
-          return `${value}%`;
-        },
-        font: {
-          weight: "bold",
-        },
-      },
-    },
-  };
 
   return (
     <main className="w-screen h-full">
@@ -206,86 +129,9 @@ const Dashboard = () => {
         <hr className="w-full border border-[#6C757D] mt-8" />
         {/*  */}
         <div className="flex md:flex-row flex-col my-8 justify-evenly">
-          <div className="border shadow-lg rounded-md h-[480px] flex flex-col justify-center items-center">
-            <div className="flex w-full justify-between my-9 px-9">
-              <div className="">
-                <h1 className="font-quick font-medium text-2xl">Weekly</h1>
-                <p className="font-quick text-[#495057] text-sm font-medium mt-2">
-                  Attendace Graphic
-                </p>
-              </div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-                className="w-7"
-              >
-                <path
-                  fill="#bdbdbd"
-                  d="M504 256c0 137-111 248-248 248S8 393 8 256C8 119.1 119 8 256 8s248 111.1 248 248zm-248 50c-25.4 0-46 20.6-46 46s20.6 46 46 46 46-20.6 46-46-20.6-46-46-46zm-43.7-165.3l7.4 136c.3 6.4 5.6 11.3 12 11.3h48.5c6.4 0 11.6-5 12-11.3l7.4-136c.4-6.9-5.1-12.7-12-12.7h-63.4c-6.9 0-12.4 5.8-12 12.7z"
-                />
-              </svg>
-            </div>
-            <hr className="w-full border border-[#F0F0F0]" />
-            <div className="my-9 mx-[72px]">
-              <div className="w-[296px]">
-                <DoughnutChart data={data} options={options} />
-              </div>
-            </div>
-          </div>
-          <div className="border shadow-lg rounded-md h-[480px] flex flex-col justify-center items-center">
-            <div className="flex w-full justify-between my-9 px-9">
-              <div className="">
-                <h1 className="font-quick font-medium text-2xl">Monthly</h1>
-                <p className="font-quick text-[#495057] text-sm font-medium mt-2">
-                  Attendace Graphic
-                </p>
-              </div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-                className="w-7"
-              >
-                <path
-                  fill="#bdbdbd"
-                  d="M504 256c0 137-111 248-248 248S8 393 8 256C8 119.1 119 8 256 8s248 111.1 248 248zm-248 50c-25.4 0-46 20.6-46 46s20.6 46 46 46 46-20.6 46-46-20.6-46-46-46zm-43.7-165.3l7.4 136c.3 6.4 5.6 11.3 12 11.3h48.5c6.4 0 11.6-5 12-11.3l7.4-136c.4-6.9-5.1-12.7-12-12.7h-63.4c-6.9 0-12.4 5.8-12 12.7z"
-                />
-              </svg>
-            </div>
-            <hr className="w-full border border-[#F0F0F0]" />
-            <div className="my-9 mx-[72px]">
-              <div className="w-[296px]">
-                <DoughnutChart data={data} options={options} />
-              </div>
-            </div>
-          </div>
-          <div className="border shadow-lg rounded-md h-[480px] flex flex-col justify-center items-center">
-            <div className="flex w-full justify-between my-9 px-9">
-              <div className="">
-                <h1 className="font-quick font-medium text-2xl">
-                  Semester Basis
-                </h1>
-                <p className="font-quick text-[#495057] text-sm font-medium mt-2">
-                  Attendace Graphic
-                </p>
-              </div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-                className="w-7"
-              >
-                <path
-                  fill="#bdbdbd"
-                  d="M504 256c0 137-111 248-248 248S8 393 8 256C8 119.1 119 8 256 8s248 111.1 248 248zm-248 50c-25.4 0-46 20.6-46 46s20.6 46 46 46 46-20.6 46-46-20.6-46-46-46zm-43.7-165.3l7.4 136c.3 6.4 5.6 11.3 12 11.3h48.5c6.4 0 11.6-5 12-11.3l7.4-136c.4-6.9-5.1-12.7-12-12.7h-63.4c-6.9 0-12.4 5.8-12 12.7z"
-                />
-              </svg>
-            </div>
-            <hr className="w-full border border-[#F0F0F0]" />
-            <div className="my-9 mx-[72px]">
-              <div className="w-[296px]">
-                <DoughnutChart data={data} options={options} />
-              </div>
-            </div>
-          </div>
+          <DoughnutComponent title="Weekly" absen={25} attendece={25} permission={50}/>
+          <DoughnutComponent title="Monthly" absen={25} attendece={25} permission={50}/>
+          <DoughnutComponent title="Semester Basis" absen={25} attendece={25} permission={50}/>
         </div>
         {/*  */}
         <div className="flex w-full justify-between mb-6">
@@ -300,16 +146,44 @@ const Dashboard = () => {
         {/*  */}
         <hr className="w-full border border-[#6C757D]" />
         {/*  */}
+
+        <div className="flex w-full justify-between mt-6">
+          <div className="">
+            <h1 className="font-quick font-semibold text-4xl text-[#212529]">Today`s Class</h1>
+            <h1 className="font-quick font-medium text-lg text-[#495057] w-[708px] mt-2">
+              Today`s class is a <span className="font-bold">database class</span> , please enter the class that is
+              already available in the schedule or click button beside.
+            </h1>
+          </div>
+          <button className="btn btn-outline font-semibold text-[24px] px-16 h-[98px]">
+            Enter class
+          </button>
+        </div>
+
         <div className="flex w-full justify-between mt-12">
           <h1 className="font-quick font-semibold text-2xl text-[#212529]">
             Schedule
           </h1>
-          <button className="btn btn-outline font-semibold text-[16px]">
-            Download Recap
-          </button>
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="flex font-quick font-semibold m-1"
+            >
+              <ChevronDownIcon className="w-5" /> Monday
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-36 p-2 shadow"
+            >
+              <li>
+                <a>Item 1</a>
+              </li>
+            </ul>
+          </div>
         </div>
         {/*  */}
-        <div className="mt-6 font-quick">
+        {/* <div className="mt-6 font-quick">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr>
@@ -378,9 +252,10 @@ const Dashboard = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
+        <TableJadwal />
         {/*  */}
-        <div className="overflow-x-auto my-8">
+        {/* <div className="overflow-x-auto my-8">
           <table className="min-w-full bg-white font-quick">
             <thead>
               <tr className="bg-[#023E8A] text-white">
@@ -402,28 +277,24 @@ const Dashboard = () => {
                 <td className="border border-black px-4 py-2">A1</td>
               </tr>
               <tr className="">
-                <td className="border border-black px-4 py-2">
+                <td className="border-x border-black px-4 py-2">
                   <tbody>
                     <tr>
                       <td className="">2</td>
                     </tr>
-                    <tr>{/* <td className="text-white">2</td> */}</tr>
+                    <tr></tr>
                   </tbody>
                 </td>
-                <td className="border border-black px-4 py-2">
+                <td className="border border-black px-4 py-2" rowSpan={2}>
                   Akbar Rismawan Tanjung
                 </td>
-                <td className="px-4 py-2 w-full">
-                  <tbody>
-                    <tr className="border-b border-black ">
-                      <td>Database</td>
-                    </tr>
-                    <tr className="border-t border-black px-4 py-2">
-                      <td>Javascript</td>
-                    </tr>
-                  </tbody>
-                </td>
+                <td className="border border-black px-4 py-2">Database</td>
                 <td className="border border-black px-4 py-2">B1</td>
+              </tr>
+              <tr>
+                <td className="border-x border-black px-4 py-2"></td>
+                <td className="border border-black px-4 py-2">Javascript</td>
+                <td className="border border-black px-4 py-2">B2</td>
               </tr>
               <tr>
                 <td className="border border-black px-4 py-2">3</td>
@@ -453,9 +324,10 @@ const Dashboard = () => {
               </tr>
             </tbody>
           </table>
-        </div>
+        </div> */}
+        <TeacherTable/>
       </div>
-      <Footer/>
+      <Footer />
     </main>
   );
 };
