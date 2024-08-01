@@ -1,0 +1,75 @@
+"use client";
+import { Table, Th, Thead, Tr, Tbody, Td } from "@/component/Table";
+import { useRouter } from "next/navigation";
+import useMapelModule from "./lib";
+import Button from "@/component/Button";
+import Link from "next/link";
+
+const Mapel = () => {
+  const { useMapelSubjectList } = useMapelModule();
+  const { data, isFetching } = useMapelSubjectList();
+
+  return (
+    <>
+      <section className="container px-4 mx-auto space-y-5">
+        <section className="flex items-center justify-between">
+            <Link href='/admin/mapel/create'>
+                <Button colorSchema="red" title="Tambah Mapel" />
+            </Link>
+        </section>
+        <section>
+          <Table isFetching={isFetching} isEmpty={data?.data?.length === 0}>
+            <Thead>
+              <Tr>
+                <Th scope="col">
+                  <div className="flex items-center gap-x-3">
+                    <input
+                      type="checkbox"
+                      className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"
+                    />
+                  </div>
+                </Th>
+                <Th scope="col">Mata Pelajaran</Th>
+                <Th scope="col">Subject Code</Th>
+                <Th scope="col">Status Pelajaran</Th>
+                <Th scope="col">Created At</Th>
+                <Th scope="col">Updated At</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {data &&
+                data.data.map((item, index) => (
+                  <Tr key={index}>
+                    <Td>
+                      <input
+                        type="checkbox"
+                        className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"
+                      />
+                    </Td>
+                    <Td>
+                      <span>{item.nama_mapel}</span>
+                    </Td>
+
+                    <Td>
+                      <span>{item.subject_code}</span>
+                    </Td>
+                    <Td>
+                      <span>{item.status_mapel}</span>
+                    </Td>
+                    <Td>
+                      <span>{item.created_at}</span>
+                    </Td>
+                    <Td>
+                      <span>{item.updated_at}</span>
+                    </Td>
+                  </Tr>
+                ))}
+            </Tbody>
+          </Table>
+        </section>
+      </section>
+    </>
+  );
+};
+
+export default Mapel;
