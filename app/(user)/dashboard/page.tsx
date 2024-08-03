@@ -21,8 +21,8 @@ import Footer from "@/component/Footer";
 import { Chart, ChartOptions, LegendItem } from "chart.js";
 import { ChartData } from "chart.js";
 import TableJadwal from "@/component/ScheduleTable";
-import TeacherTable from "@/component/TeacherSchedule";
 import DoughnutComponent from "./component/DONUTCHART";
+import TeacherTable from "./component/TeacherSchedule";
 
 const Dashboard = () => {
   const [seconds, setSeconds] = useState(59);
@@ -86,7 +86,7 @@ const Dashboard = () => {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              <a onClick={async () => await signOut()}>Logout</a>
             </li>
           </ul>
         </div>
@@ -129,9 +129,24 @@ const Dashboard = () => {
         <hr className="w-full border border-[#6C757D] mt-8" />
         {/*  */}
         <div className="flex md:flex-row flex-col my-8 justify-evenly">
-          <DoughnutComponent title="Weekly" absen={25} attendece={25} permission={50}/>
-          <DoughnutComponent title="Monthly" absen={25} attendece={25} permission={50}/>
-          <DoughnutComponent title="Semester Basis" absen={25} attendece={25} permission={50}/>
+          <DoughnutComponent
+            title="Weekly"
+            absen={25}
+            attendece={25}
+            permission={50}
+          />
+          <DoughnutComponent
+            title="Monthly"
+            absen={25}
+            attendece={25}
+            permission={50}
+          />
+          <DoughnutComponent
+            title="Semester Basis"
+            absen={25}
+            attendece={25}
+            permission={50}
+          />
         </div>
         {/*  */}
         <div className="flex w-full justify-between mb-6">
@@ -149,10 +164,14 @@ const Dashboard = () => {
 
         <div className="flex w-full justify-between mt-6">
           <div className="">
-            <h1 className="font-quick font-semibold text-4xl text-[#212529]">Today`s Class</h1>
+            <h1 className="font-quick font-semibold text-4xl text-[#212529]">
+              Today`s Class
+            </h1>
             <h1 className="font-quick font-medium text-lg text-[#495057] w-[708px] mt-2">
-              Today`s class is a <span className="font-bold">database class</span> , please enter the class that is
-              already available in the schedule or click button beside.
+              Today`s class is a{" "}
+              <span className="font-bold">database class</span> , please enter
+              the class that is already available in the schedule or click
+              button beside.
             </h1>
           </div>
           <button className="btn btn-outline font-semibold text-[24px] px-16 h-[98px]">
@@ -183,149 +202,11 @@ const Dashboard = () => {
           </div>
         </div>
         {/*  */}
-        {/* <div className="mt-6 font-quick">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr>
-                <th className="py-2 px-4 bg-blue-800 text-white">Clock</th>
-                <th className="py-2 px-4 bg-blue-800 text-white">X RPL</th>
-                <th className="py-2 px-4 bg-blue-800 text-white">X TKJ</th>
-                <th className="py-2 px-4 bg-blue-800 text-white">XI RPL</th>
-                <th className="py-2 px-4 bg-blue-800 text-white">XI TKJ</th>
-                <th className="py-2 px-4 bg-blue-800 text-white">XII RPL</th>
-                <th className="py-2 px-4 bg-blue-800 text-white">XII TKJ</th>
-              </tr>
-            </thead>
-            <tbody className="font-semibold text-lg">
-              <tr>
-                <td className="border-t py-2 px-4">07.00 - 08.30</td>
-                <td className="border-t py-2 px-4">A1</td>
-                <td className="border-t py-2 px-4 text-blue-600">B2</td>
-                <td className="border-t py-2 px-4">C1</td>
-                <td className="border-t py-2 px-4">A1</td>
-                <td className="border-t py-2 px-4 text-blue-600">B2</td>
-                <td className="border-t py-2 px-4">C1</td>
-              </tr>
-              <tr>
-                <td className="border-t py-2 px-4">08.30 - 10.30</td>
-                <td className="border-t py-2 px-4">A1</td>
-                <td className="border-t py-2 px-4 text-blue-600">B2</td>
-                <td className="border-t py-2 px-4">C1</td>
-                <td className="border-t py-2 px-4">A1</td>
-                <td className="border-t py-2 px-4 text-blue-600">B2</td>
-                <td className="border-t py-2 px-4">C1</td>
-              </tr>
-              <tr>
-                <td className="border-t py-2 px-4">10.30 - 11.30</td>
-                <td className="border-t py-2 px-4">A1</td>
-                <td className="border-t py-2 px-4 text-blue-600">B2</td>
-                <td className="border-t py-2 px-4">C1</td>
-                <td className="border-t py-2 px-4">A1</td>
-                <td className="border-t py-2 px-4 text-blue-600">B2</td>
-                <td className="border-t py-2 px-4">C1</td>
-              </tr>
-              <tr>
-                <td className="border-t py-2 px-4">11.30 - 13.15</td>
-                <td className="border-t py-2 px-4" colSpan={6}>
-                  Rest
-                </td>
-              </tr>
-              <tr>
-                <td className="border-t py-2 px-4">13.15 - 14.45</td>
-                <td className="border-t py-2 px-4">A1</td>
-                <td className="border-t py-2 px-4 text-blue-600">B2</td>
-                <td className="border-t py-2 px-4">C1</td>
-                <td className="border-t py-2 px-4">A1</td>
-                <td className="border-t py-2 px-4 text-blue-600">B2</td>
-                <td className="border-t py-2 px-4">C1</td>
-              </tr>
-            </tbody>
-          </table>
-          <div className="flex justify-between items-center px-8 py-3 bg-[#023E8A]">
-            <h1 className="text-white font-semibold text-lg">Monday schedule</h1>
-            <div className="flex gap-4">
-              <button className="px-4 py-2 border border-white text-white rounded">
-                Prev
-              </button>
-              <button className="px-4 py-2 border border-white text-white rounded">
-                Next
-              </button>
-            </div>
-          </div>
-        </div> */}
+
         <TableJadwal />
         {/*  */}
-        {/* <div className="overflow-x-auto my-8">
-          <table className="min-w-full bg-white font-quick">
-            <thead>
-              <tr className="bg-[#023E8A] text-white">
-                <th className="w-1/12 py-2 px-4">NO</th>
-                <th className="w-4/12 py-2 px-4">TEACHER`S NAME</th>
-                <th className="w-4/12 py-2 px-4">SUBJECT NAME</th>
-                <th className="w-1/12 py-2 px-4">SUBJECT CODE</th>
-              </tr>
-            </thead>
-            <tbody className="text-black">
-              <tr>
-                <td className="border border-black px-4 py-2">1</td>
-                <td className="border border-black px-4 py-2">
-                  Ihsan Santana Wibawa
-                </td>
-                <td className="border border-black px-4 py-2">
-                  Fullstack Developer
-                </td>
-                <td className="border border-black px-4 py-2">A1</td>
-              </tr>
-              <tr className="">
-                <td className="border-x border-black px-4 py-2">
-                  <tbody>
-                    <tr>
-                      <td className="">2</td>
-                    </tr>
-                    <tr></tr>
-                  </tbody>
-                </td>
-                <td className="border border-black px-4 py-2" rowSpan={2}>
-                  Akbar Rismawan Tanjung
-                </td>
-                <td className="border border-black px-4 py-2">Database</td>
-                <td className="border border-black px-4 py-2">B1</td>
-              </tr>
-              <tr>
-                <td className="border-x border-black px-4 py-2"></td>
-                <td className="border border-black px-4 py-2">Javascript</td>
-                <td className="border border-black px-4 py-2">B2</td>
-              </tr>
-              <tr>
-                <td className="border border-black px-4 py-2">3</td>
-                <td className="border border-black px-4 py-2">
-                  Dedi Hidayatullah
-                </td>
-                <td className="border border-black px-4 py-2">
-                  Indonesian Language
-                </td>
-                <td className="border border-black px-4 py-2">C1</td>
-              </tr>
-              <tr>
-                <td className="border border-black px-4 py-2">4</td>
-                <td className="border border-black px-4 py-2">Zidni Ilman</td>
-                <td className="border-y border-t border-b-0 border-black"></td>
-                <td className="border border-black px-4 py-2">C1</td>
-              </tr>
-              <tr>
-                <td className="border border-black px-4 py-2">5</td>
-                <td className="border border-black px-4 py-2">
-                  Darmansyah Yamin
-                </td>
-                <td className="border-y border-b border-t-0 border-black px-4 py-2">
-                  P5
-                </td>
-                <td className="border border-black px-4 py-2">C1</td>
-              </tr>
-            </tbody>
-          </table>
-        </div> */}
-        <TeacherTable/>
+
+        <TeacherTable />
       </div>
       <Footer />
     </main>

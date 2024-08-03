@@ -8,7 +8,7 @@ interface InputFieldProps {
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
-  error?: string;
+  error?: string | any;
   touched?: boolean;
   isPassword?: boolean;
 }

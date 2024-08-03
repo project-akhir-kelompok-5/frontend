@@ -14,8 +14,8 @@ const TableJadwal: React.FC = () => {
   return (
     <div className="mt-3 font-quick w-full">
       <div className="flex flex-col">
-        <div className="overflow-x-auto">
-          <div className="w-full">
+        <div className="overflow-x-auto ">
+          <div className="min-w-[800px] ">
             {/* Table Header */}
             <div className="flex flex-row justify-between w-full bg-blue-800 text-white font-semibold">
               <div className="py-2 px-6">Clock</div>
@@ -29,10 +29,7 @@ const TableJadwal: React.FC = () => {
             {/* Table Rows */}
             <div className="flex flex-col">
               {scheduleData.map((row, index) => (
-                <div
-                  key={index}
-                  className="flex border-t flex-row justify-between"
-                >
+                <div key={index} className="flex border-t flex-row justify-between">
                   <div className="border-t py-4 px-4 w-40 font-semibold">{row.time}</div>
                   {row.classes.map((cls, clsIndex) => {
                     let additionalClasses = "font-semibold ";

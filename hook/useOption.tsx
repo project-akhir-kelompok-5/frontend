@@ -1,32 +1,91 @@
 import { useSession } from "next-auth/react";
 import useAxiosAuth from "./useAuthAxios";
 import { useQuery } from "@tanstack/react-query";
-import { Kategori } from "@/app/siswa/kategori/interface";
+import { Mapel } from "@/app/(mapel)/interface";
+import { Kelas, KelasListResponse } from "@/app/(kelas)/interface";
+import { SubjectCode } from "@/app/(guru)/interface";
+
+// Helper function to generate letters from A to Z
+const generateAlphabetOptions = () => {
+  const letters = Array.from({ length: 26 }, (_, i) =>
+    String.fromCharCode(65 + i)
+  ); // Generates ['A', 'B', ..., 'Z']
+  return letters.map((letter) => ({
+    label: letter,
+    value: letter,
+  }));
+};
+
+const KelasList = [
+  { nama_kelas: "X RPL", kelas: 1 },
+  { nama_kelas: "X TKJ", kelas: 4 },
+  { nama_kelas: "XI RPL", kelas: 2 },
+  { nama_kelas: "XI TKJ", kelas: 5 },
+  { nama_kelas: "XII RPL", kelas: 3 },
+  { nama_kelas: "XII TKJ", kelas: 6 },
+];
 
 const useOptions = () => {
   const axiosAuthClient = useAxiosAuth();
   const { data: session } = useSession();
 
-  const getKategori = async (): Promise<any> => {
-    return axiosAuthClient.get("/kategori/list").then((res) => res.data);
+  const getMapel = async (): Promise<any> => {
+    return axiosAuthClient.get("/mapel/list").then((res) => res.data);
   };
 
-  const { data: optionKategori, isFetching } = useQuery(
-    ["/kategori/list"],
-    () => getKategori(),
+  const { data: optionMapel, isFetching } = useQuery(
+    ["/mapel/list"],
+    () => getMapel(),
     {
       enabled: !!session === true,
       select: (data) => {
-        const options = data?.data?.map((item : Kategori) => {
-            return {
-                label: item.nama_kategori,
-                value: item.id
-            }
-        })
-        return options
-      }
+        const options = data?.data?.map((item: Mapel) => ({
+          label: item.nama_mapel,
+          value: item.id,
+        }));
+        return options;
+      },
     }
   );
-  return { optionKategori };
+
+  const getSubjectCode = async (): Promise<any> => {
+    return axiosAuthClient.get("/subject-code/list").then((res) => res.data);
+  };
+
+  const { data: optionSubjectCode } = useQuery(
+    ["/subject-code/list"],
+    () => getSubjectCode(),
+    {
+      enabled: !!session === true,
+      select: (data) => {
+        const options = data?.data?.map((item: SubjectCode) => ({
+          label: `${item.subject_code} (${item.nama_mapel})`,
+          value: item.id,
+        }));
+        return options;
+      },
+    }
+  );
+
+  // Options for days of the week
+  const optionHari = [
+    { label: "Senin", value: "Senin" },
+    { label: "Selasa", value: "Selasa" },
+    { label: "Rabu", value: "Rabu" },
+    { label: "Kamis", value: "Kamis" },
+    { label: "Jumat", value: "Jumat" },
+    { label: "Sabtu", value: "Sabtu" },
+  ];
+
+  const optionKelas = KelasList.map((item) => ({
+    label: item.nama_kelas,
+    value: item.kelas,
+  }));
+
+  // Generate options for initial_schedule from A to Z
+  const optionInitialSchedule = generateAlphabetOptions();
+
+  return { optionSubjectCode, optionKelas, optionMapel, optionHari, optionInitialSchedule };
 };
+
 export default useOptions;

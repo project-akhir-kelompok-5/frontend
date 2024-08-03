@@ -1,13 +1,25 @@
 "use client";
 import { Table, Th, Thead, Tr, Tbody, Td } from "@/component/Table";
 import { useRouter } from "next/navigation";
-import useMapelModule from "./lib";
+import useMapelModule from "../../(guru)/lib";
 import Button from "@/component/Button";
-import useGuruModule from "./lib";
+import useGuruModule from "../../(guru)/lib";
+import { GuruSubjectListResponse } from "../../(guru)/interface";
+import { string } from "yup";
+import useCrudModule, { PaginationParams } from "@/hook/useCRUD";
 
 const Guru = () => {
-  const { useGuruSubjectList } = useGuruModule();
-  const { data, isFetching } = useGuruSubjectList();
+  const defaultParams: PaginationParams = {
+    page: 1,
+    pageSize: 10,
+    nama: 0
+  };
+
+  const { useList } = useCrudModule();
+  const { data, isFetching } = useList<GuruSubjectListResponse>(
+    "guru/list-subject",
+    defaultParams
+  );
 
   return (
     <>
@@ -45,19 +57,25 @@ const Guru = () => {
                       />
                     </Td>
                     <Td>
-                      <span>{item.user.nama}</span>
+                      <span>{item.nama}</span>
                     </Td>
 
                     <Td>
                       {item.mapel.map((item) => (
-                        <div className="flex flex-col gap-3" key={item.nama_mapel}>
+                        <div
+                          className="flex flex-col gap-3"
+                          key={item.nama_mapel}
+                        >
                           <span className=" mb-3">{item.nama_mapel}</span>
                         </div>
                       ))}
                     </Td>
                     <Td>
                       {item.mapel.map((item) => (
-                        <div className="flex flex-col gap-3" key={item.nama_mapel}>
+                        <div
+                          className="flex flex-col gap-3"
+                          key={item.nama_mapel}
+                        >
                           <span className=" mb-3">{item.subject_code}</span>
                         </div>
                       ))}

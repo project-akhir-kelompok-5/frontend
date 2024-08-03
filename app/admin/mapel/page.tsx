@@ -1,7 +1,7 @@
 "use client";
 import { Table, Th, Thead, Tr, Tbody, Td } from "@/component/Table";
 import { useRouter } from "next/navigation";
-import useMapelModule from "./lib";
+import useMapelModule from "../../(mapel)/lib";
 import Button from "@/component/Button";
 import Link from "next/link";
 
@@ -13,9 +13,9 @@ const Mapel = () => {
     <>
       <section className="container px-4 mx-auto space-y-5">
         <section className="flex items-center justify-between">
-            <Link href='/admin/mapel/create'>
-                <Button colorSchema="red" title="Tambah Mapel" />
-            </Link>
+          <Link href="/admin/mapel/create">
+            <Button colorSchema="red" title="Tambah Mapel" />
+          </Link>
         </section>
         <section>
           <Table isFetching={isFetching} isEmpty={data?.data?.length === 0}>
@@ -29,11 +29,13 @@ const Mapel = () => {
                     />
                   </div>
                 </Th>
+                <Th scope="col">Id mapel</Th>
                 <Th scope="col">Mata Pelajaran</Th>
                 <Th scope="col">Subject Code</Th>
                 <Th scope="col">Status Pelajaran</Th>
                 <Th scope="col">Created At</Th>
                 <Th scope="col">Updated At</Th>
+                <Th scope="col" className="ml-8">Action</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -45,6 +47,9 @@ const Mapel = () => {
                         type="checkbox"
                         className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"
                       />
+                    </Td>
+                    <Td>
+                      <span>{item.id}</span>
                     </Td>
                     <Td>
                       <span>{item.nama_mapel}</span>
@@ -61,6 +66,11 @@ const Mapel = () => {
                     </Td>
                     <Td>
                       <span>{item.updated_at}</span>
+                    </Td>
+                    <Td className="flex flex-row justify-between w-36">
+                      
+                      <p className="text-blue-500 btn ml-8">Edit</p>
+                      <p className="text-red-500 btn ml-4">Delete</p>
                     </Td>
                   </Tr>
                 ))}

@@ -5,31 +5,31 @@ import Label from "@/component/Label";
 import Select from "@/component/Select";
 import { useFormik, Form, FormikProvider } from "formik";
 import * as yup from "yup";
-import { MapelCreatePayload } from "../interface";
-import useBookModule from "../lib";
+import { MapelCreatePayload } from "../../../(mapel)/interface";
+import useBookModule from "../../../(mapel)/lib";
 import Link from "next/link";
 import { ArrowLongLeftIcon } from "@heroicons/react/20/solid";
+import useCrudModule from "@/hook/useCRUD";
 
 export const createMapelSchema = yup.object().shape({
   nama_mapel: yup.string().nullable().default("").required("Wajib isi"),
-  subject_code: yup.string().nullable().default("").required("Wajib isi"),
   status_mapel: yup.string().nullable().default("").required("Wajib isi"),
 });
 
 const options = [
   {
     label: "Online",
-    value: 'online'
+    value: "online",
   },
   {
     label: "Offline",
-    value: 'offline'
-  }
+    value: "offline",
+  },
 ];
 
 const CreateMapel = () => {
-  const { useCreateMapel } = useBookModule();
-  const { mutate, isLoading } = useCreateMapel();
+  const { useCreate } = useCrudModule();
+  const { mutate, isLoading } = useCreate<MapelCreatePayload>("/mapel/create");
   const onSubmit = async (values: MapelCreatePayload) => {
     mutate(values, {
       onSuccess: () => {
@@ -66,7 +66,9 @@ const CreateMapel = () => {
             Kembali
           </span>
         </Link>
-        <h2 className="text-2xl font-semibold text-gray-700 mb-6">Tambah Mapel</h2>
+        <h2 className="text-2xl font-semibold text-gray-700 mb-6">
+          Tambah Mapel
+        </h2>
 
         <FormikProvider value={formik}>
           <Form className="space-y-6" onSubmit={handleSubmit}>
@@ -75,26 +77,11 @@ const CreateMapel = () => {
               <InputText
                 value={values.nama_mapel}
                 placeholder="Nama mapel"
-                id="nama_mapel"
                 name="nama_mapel"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                isError={!!errors.nama_mapel}
-                messageError={errors.nama_mapel}
-              />
-            </section>
-
-            <section>
-              <Label htmlFor="subject_code" title="Code" />
-              <InputText
-                value={values.subject_code}
-                placeholder="Code"
-                id="subject_code"
-                name="subject_code"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                isError={!!errors.subject_code}
-                messageError={errors.subject_code}
+                error={formik.errors.nama_mapel}
+                touched={formik.touched.nama_mapel}
               />
             </section>
 

@@ -31,7 +31,7 @@ const Select: React.FC<
         value={value}
         name={name}
         id={id}
-        className={clsx(`w-full h-8 border rounded px-2`, {
+        className={clsx(`w-full h-10 border rounded px-2`, {
           "border-red-500 border-2": isError,
           "border-gray-700": !isError,
         })}
