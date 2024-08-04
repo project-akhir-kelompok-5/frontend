@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: #4f46e5; /* Sesuaikan dengan warna Tailwind CSS */
+  height: 4px;
+  z-index: 50;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

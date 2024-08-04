@@ -221,11 +221,13 @@ const CreateJadwal = () => {
                                                 ...updatedJamDetail[
                                                   detailIndex
                                                 ],
-                                                subject_code: newSubjectCode as any,
+                                                subject_code:
+                                                  newSubjectCode as any,
                                               };
                                             } else {
                                               updatedJamDetail.push({
-                                                subject_code: newSubjectCode as any,
+                                                subject_code:
+                                                  newSubjectCode as any,
                                                 kelas: kelasOption.value,
                                               });
                                             }
@@ -283,18 +285,7 @@ const CreateJadwal = () => {
                       </tbody>
                     </table>
                   </div>
-                  <button
-                    type="submit"
-                    className="btn btn-outline px-10"
-                    onClick={() =>
-                      push({
-                        jam_mulai: "",
-                        jam_selesai: "",
-                        is_rest: false,
-                        jam_detail: [],
-                      })
-                    }
-                  >
+                  <button type="submit" className="btn btn-outline px-10">
                     Submit
                   </button>
                   <button
