@@ -1,21 +1,50 @@
 // components/ScheduleTable.tsx
+"use client";
 import React from "react";
-
-const scheduleData = [
-  { time: "07.00 - 08.30", classes: ["A1", "B2", "C1", "A1", "B2", "C1"] },
-  { time: "08.30 - 10.30", classes: ["A1", "B2", "C1", "A1", "B2", "C1"] },
-  { time: "10.30 - 11.30", classes: ["A1", "B2", "C1", "A1", "B2", "C1"] },
-  { time: "11.30 - 13.15", classes: ["", "", "Rest", "", "", ""] },
-  { time: "13.15 - 14.00", classes: ["A1", "B2", "C1", "A1", "B2", "C1"] },
-  { time: "14.00 - 14.45", classes: ["A1", "B2", "C1", "A1", "B2", "C1"] },
-];
+import useCrudModule, { PaginationParams } from "@/hook/useCRUD";
+import { JadwalListResponse } from "@/app/(jadwal)/interface";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const TableJadwal: React.FC = () => {
+  const defaultParams: PaginationParams = {
+    page: 1,
+    pageSize: 10,
+    nama: 0,
+  };
+
+  const { useList } = useCrudModule();
+  const { data: dataJadwal, isFetching } = useList<JadwalListResponse>(
+    "jadwal/list",
+    defaultParams
+  );
+
   return (
     <div className="mt-3 font-quick w-full">
       <div className="flex flex-col">
-        <div className="overflow-x-auto ">
-          <div className="min-w-[800px] ">
+        <div className="overflow-x-auto">
+          <div className="flex w-full justify-between mt-12 mb-3">
+            <h1 className="font-quick font-semibold text-2xl text-[#212529]">
+              Schedule
+            </h1>
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="flex font-quick font-semibold m-1"
+              >
+                <ChevronDownIcon className="w-5" /> Monday
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-36 p-2 shadow"
+              >
+                <li>
+                  <a>Item 1</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="min-w-[800px]">
             {/* Table Header */}
             <div className="flex flex-row justify-between w-full bg-blue-800 text-white font-semibold">
               <div className="py-2 px-6">Clock</div>
@@ -28,34 +57,41 @@ const TableJadwal: React.FC = () => {
             </div>
             {/* Table Rows */}
             <div className="flex flex-col">
-              {scheduleData.map((row, index) => (
-                <div key={index} className="flex border-t flex-row justify-between">
-                  <div className="border-t py-4 px-4 w-40 font-semibold">{row.time}</div>
-                  {row.classes.map((cls, clsIndex) => {
-                    let additionalClasses = "font-semibold ";
-                    if (clsIndex === 0) {
-                      additionalClasses = "-ml-[110px] font-semibold";
-                    } else if (clsIndex === 5) {
-                      additionalClasses = "mr-6 font-semibold";
-                    }
+              {dataJadwal?.data.map((jadwal, jadwalIndex) =>
+                jadwal.jam_jadwal.map((jam, jamIndex) => (
+                  <div
+                    key={`${jadwalIndex}-${jamIndex}`}
+                    className="flex border-t flex-row justify-between"
+                  >
+                    <div className="border-t py-4 px-4 w-40 font-semibold">
+                      {`${jam.jam_mulai} - ${jam.jam_selesai}`}
+                    </div>
+                    {jam.jam_detail.map((detail, detailIndex) => {
+                      let additionalClasses = "font-semibold ";
+                      if (detailIndex === 0) {
+                        additionalClasses = "-ml-[110px] font-semibold";
+                      } else if (detailIndex === 5) {
+                        additionalClasses = "mr-6 font-semibold";
+                      }
 
-                    return (
-                      <div
-                        key={clsIndex}
-                        className={`border-t py-4 px-4 ${additionalClasses} ${
-                          cls === "Rest"
-                            ? "mr-3 font-semibold"
-                            : cls === "B2"
-                            ? "text-blue-600"
-                            : ""
-                        }`}
-                      >
-                        {cls}
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
+                      return (
+                        <div
+                          key={detail.id}
+                          className={`border-t py-4 px-4 ${additionalClasses} ${
+                            detail.nama_kelas === "Rest"
+                              ? "mr-3 font-semibold"
+                              : detail.nama_mapel === "B2"
+                              ? "text-blue-600"
+                              : ""
+                          }`}
+                        >
+                          ( {detail.subject_code})
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>

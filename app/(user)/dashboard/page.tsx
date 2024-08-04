@@ -46,6 +46,7 @@ const Dashboard = () => {
     return () => clearInterval(countdown);
   }, [seconds, minutes, hours]);
 
+
   return (
     <main className="w-screen h-full">
       <div className="w-full px-10 py-5 border-b bg-[#023E8A] flex flex-row justify-between items-center">
@@ -179,29 +180,7 @@ const Dashboard = () => {
           </button>
         </div>
 
-        <div className="flex w-full justify-between mt-12">
-          <h1 className="font-quick font-semibold text-2xl text-[#212529]">
-            Schedule
-          </h1>
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="flex font-quick font-semibold m-1"
-            >
-              <ChevronDownIcon className="w-5" /> Monday
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-36 p-2 shadow"
-            >
-              <li>
-                <a>Item 1</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        {/*  */}
+       
 
         <TableJadwal />
         {/*  */}

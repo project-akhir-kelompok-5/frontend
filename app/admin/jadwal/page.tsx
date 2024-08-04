@@ -1,9 +1,8 @@
 // components/ScheduleTable.tsx
 "use client";
 import React from "react";
-import useJadwalModule from "./lib";
 import useCrudModule, { PaginationParams } from "@/hook/useCRUD";
-import { JadwalListResponse } from "./interface";
+import { JadwalListResponse } from "@/app/(jadwal)/interface";
 
 const TableJadwal: React.FC = () => {
   const defaultParams: PaginationParams = {
