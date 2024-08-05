@@ -20,9 +20,9 @@ import React from "react";
 import Footer from "@/component/Footer";
 import { Chart, ChartOptions, LegendItem } from "chart.js";
 import { ChartData } from "chart.js";
-import TableJadwal from "@/component/JadwalTable";
 import DoughnutComponent from "./component/DONUTCHART";
 import TeacherTable from "./component/TeacherSchedule";
+import TableJadwal from "@/component/JadwalTable";
 
 const Dashboard = () => {
   const [seconds, setSeconds] = useState(59);
@@ -46,7 +46,6 @@ const Dashboard = () => {
     return () => clearInterval(countdown);
   }, [seconds, minutes, hours]);
 
-
   return (
     <main className="w-screen h-full">
       <div className="w-full px-10 py-5 border-b bg-[#023E8A] flex flex-row justify-between items-center">
@@ -57,7 +56,7 @@ const Dashboard = () => {
           <a href="" className="font-quick text-[#FFBC25] text-base">
             Dashboard
           </a>
-          <a href="/" className="font-quick text-white text-base">
+          <a href="/siswa/attendance" className="font-quick text-white text-base">
             Attendance
           </a>
           <a href="" className="font-quick text-white text-base">
@@ -99,7 +98,7 @@ const Dashboard = () => {
         <div className="flex w-full justify-between my-10 items-center">
           <div className="flex flex-col gap-3">
             <h1 className="font-quick text-3xl font-medium">
-              Hi, Akbar Rismawan
+              Hi, Ramzi Respati
             </h1>
             <div className="flex flex-row gap-2">
               <picture>
@@ -123,10 +122,31 @@ const Dashboard = () => {
           </div>
         </div>
         {/*  */}
-        <button className="btn btn-outline w-full hover:bg-[#023E8A] h-[60px] mt-10 text-[#212529] text-3xl font-quick font-semibold py-3">
-          Take an attendance before, Click me!
-        </button>
         {/*  */}
+        <hr className="w-full border border-[#6C757D]" />
+        {/*  */}
+
+        <div className="flex w-full justify-between mt-6">
+          <div className="">
+            <h1 className="font-quick font-semibold text-4xl text-[#212529]">
+              Today`s Class
+            </h1>
+            <h1 className="font-quick font-medium text-lg text-[#495057] w-[708px] mt-2">
+              Today`s class is a{" "}
+              <span className="font-bold">database class</span> , please enter
+              the class that is already available in the schedule or click
+              button beside.
+            </h1>
+          </div>
+          <button className="btn btn-outline font-semibold text-[24px] px-16 h-[98px]">
+            Enter class
+          </button>
+        </div>
+
+        <TableJadwal />
+        {/*  */}
+
+        <TeacherTable />
         <hr className="w-full border border-[#6C757D] mt-8" />
         {/*  */}
         <div className="flex md:flex-row flex-col my-8 justify-evenly">
@@ -150,7 +170,7 @@ const Dashboard = () => {
           />
         </div>
         {/*  */}
-        <div className="flex w-full justify-between mb-6">
+        <div className="flex w-full justify-between mb-32">
           <h1 className="font-quick font-medium text-lg text-[#495057] w-[708px]">
             This will kindly remind you of your attendance each time you clock
             in, whether it be weekly, monthly, or per semester.
@@ -159,33 +179,6 @@ const Dashboard = () => {
             Download Recap
           </button>
         </div>
-        {/*  */}
-        <hr className="w-full border border-[#6C757D]" />
-        {/*  */}
-
-        <div className="flex w-full justify-between mt-6">
-          <div className="">
-            <h1 className="font-quick font-semibold text-4xl text-[#212529]">
-              Today`s Class
-            </h1>
-            <h1 className="font-quick font-medium text-lg text-[#495057] w-[708px] mt-2">
-              Today`s class is a{" "}
-              <span className="font-bold">database class</span> , please enter
-              the class that is already available in the schedule or click
-              button beside.
-            </h1>
-          </div>
-          <button className="btn btn-outline font-semibold text-[24px] px-16 h-[98px]">
-            Enter class
-          </button>
-        </div>
-
-       
-
-        <TableJadwal />
-        {/*  */}
-
-        <TeacherTable />
       </div>
       <Footer />
     </main>

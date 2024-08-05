@@ -3,6 +3,7 @@ import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosAuth from "./useAuthAxios";
 import { useToast } from "./useToast";
+import Swal from "sweetalert2";
 export interface PaginationParams {
   page: number;
   pageSize: number;
@@ -57,6 +58,14 @@ const useCrudModule = () => {
       handlePage,
       filterParams: params,
     };
+  };
+
+  const updateResource = async <T>(
+    url: string,
+    id: string,
+    payload: T
+  ): Promise<any> => {
+    return axiosAuthClient.put(`${url}/${id}`, payload).then((res) => res.data);
   };
 
   const useList = <T>(url: string, customParams?: PaginationParams) => {
@@ -142,6 +151,44 @@ const useCrudModule = () => {
     return { mutate, isLoading };
   };
 
-  return { useList, useCreate, useDetail, useDelete };
+  const useCreateBulk = <T>(url: string) => {
+    const { mutate, isLoading } = useMutation(
+      (payload: T) => axiosAuthClient.post(url, payload),
+      {
+        onSuccess: (response) => {
+          toastSuccess(response.data.message)
+          queryClient.invalidateQueries([url])
+        },
+        onError: (error) => {
+          toastError()
+          console.log('errorrroroorororor',error);
+        },
+      }
+    );
+    return { mutate, isLoading };
+  };
+
+  const useUpdate = <T>(url: string, id: string) => {
+    const axiosAuthClient = useAxiosAuth();
+    const queryClient = useQueryClient();
+    const { toastSuccess, toastError } = useToast();
+  
+    const { mutate, isLoading } = useMutation(
+      (payload: T) => updateResource<T>(url, id, payload),
+      {
+        onSuccess: (response) => {
+          toastSuccess(response.data.message);
+          queryClient.invalidateQueries([url]); // Optionally, invalidate queries to refetch data
+        },
+        onError: () => {
+          toastError();
+        },
+      }
+    );
+  
+    return { mutate, isLoading };
+  };
+
+  return { useList, useCreate, useDetail, useDelete, useUpdate, useCreateBulk };
 };
 export default useCrudModule;

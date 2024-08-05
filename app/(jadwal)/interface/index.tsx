@@ -1,7 +1,7 @@
 interface JamDetail {
   id: number;
   subject_code: number;
-  kelas: number;
+  kelas?: number;
   nama_mapel: string;
   nama_kelas: string;
 }
@@ -16,7 +16,7 @@ interface JamJadwal {
 
 interface Jadwal {
   id: number;
-  hari: string;
+  hari_id: number;
   jam_jadwal: JamJadwal[];
 }
 
@@ -24,8 +24,10 @@ export interface JadwalListResponse {
   data: Jadwal[];
 }
 
+export interface JadwalDetailResponse extends Jadwal {}
+
 export interface JadwalListFilter {
-  hari: string;
+  hari_id: number;
 }
 
 interface CreateJamDetail extends Pick<JamDetail, "subject_code" | "kelas"> {}
@@ -34,6 +36,6 @@ interface CreateJamJadwal
   jam_detail: CreateJamDetail[];
 }
 export interface CreateJadwalPayload {
-  hari: string;
+  hari_id: number;
   jam_jadwal: CreateJamJadwal[]; // This expects an array of CreateJamJadwal
 }

@@ -11,6 +11,7 @@ import { CreateJadwalPayload } from "@/app/(jadwal)/interface";
 import React from "react";
 import useOptions from "@/hook/useOption";
 import useJadwalModule from "@/app/(jadwal)/lib";
+import TeacherTable from "@/app/(user)/dashboard/component/TeacherSchedule";
 
 // Define KelasList here
 const KelasList = [
@@ -37,7 +38,7 @@ const generateKelasMap = () => {
 };
 
 export const createJadwalSchema = yup.object().shape({
-  hari: yup.string().nullable().default("").required("Wajib isi"),
+  hari_id: yup.number().nullable().default(0).required("Wajib isi"),
   jam_jadwal: yup
     .array()
     .of(
@@ -84,7 +85,7 @@ const CreateJadwal = () => {
 
   const formik = useFormik<CreateJadwalPayload>({
     initialValues: {
-      hari: "",
+      hari_id: 0,
       jam_jadwal: [],
     },
     validationSchema: createJadwalSchema,
@@ -105,8 +106,8 @@ const CreateJadwal = () => {
   console.log(formik.values);
 
   return (
-    <section className="flex items-center justify-center w-full h-screen bg-gray-50 p-10 font-quick">
-      <section className="bg-white p-8 rounded-lg shadow-lg w-full">
+    <section className="flex items-center overflow-x-auto flex-col justify-center w-full h-screen pt-10 bg-gray-50 p-10 font-quick">
+      <section className="bg-white p-8 rounded-lg mt-20 shadow-lg w-full">
         <Link href="/admin/jadwal">
           <span className="flex items-center mb-4 text-blue-600 hover:underline">
             <ArrowLongLeftIcon className="h-5 w-5 mr-2" />
@@ -122,11 +123,11 @@ const CreateJadwal = () => {
             <section className="flex items-center gap-4 mb-4">
               <Label htmlFor="hari" title="Hari" />
               <Select
-                id="hari"
-                value={values.hari}
+                id="hari_id"
+                value={values.hari_id}
                 options={optionHari}
-                name={`hari`}
-                onChange={(e) => setFieldValue(`hari`, e.target.value)}
+                name={`hari_id`}
+                onChange={(e) => setFieldValue(`hari_id`, e.target.value)}
               />
             </section>
 
@@ -261,12 +262,23 @@ const CreateJadwal = () => {
                                     <input
                                       type="checkbox"
                                       id={`is_rest_${index}`}
-                                      onChange={() =>
+                                      onChange={() => {
+                                        const isRest = !jadwal.is_rest;
                                         setFieldValue(
                                           `jam_jadwal[${index}].is_rest`,
-                                          !jadwal.is_rest
-                                        )
-                                      }
+                                          isRest
+                                        );
+                                        if (isRest) {
+                                          // Clear subject_code values when is_rest is true
+                                          setFieldValue(
+                                            `jam_jadwal[${index}].jam_detail`,
+                                            jadwal.jam_detail.map((detail) => ({
+                                              ...detail,
+                                              subject_code: "",
+                                            }))
+                                          );
+                                        }
+                                      }}
                                       defaultChecked={jadwal.is_rest}
                                       className="checkbox"
                                     />
@@ -307,6 +319,9 @@ const CreateJadwal = () => {
             </FieldArray>
           </Form>
         </FormikProvider>
+      </section>
+      <section className="w-full">
+        <TeacherTable />
       </section>
     </section>
   );

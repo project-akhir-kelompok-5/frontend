@@ -41,7 +41,7 @@ const TableJadwal: React.FC = () => {
   const { useUpdate, useDetail } = useCrudModule();
   const { data: dataJadwalDetail } = useDetail<JadwalDetailResponses>(
     "jadwal/detail",
-    selectedDay || "0"
+    selectedDay || "1"
   );
   const { mutate, isLoading } = useUpdate<any>(
     "jadwal/update",
@@ -132,7 +132,7 @@ const TableJadwal: React.FC = () => {
   console.log(formik.values);
 
   return (
-    <div className="mt-3 p-6 font-quick w-full">
+    <div className="mt-3 font-quick w-full">
       <div className="flex flex-col">
         <div className="overflow-x-auto">
           <div className="flex w-full justify-between mt-12 mb-3">
@@ -146,13 +146,13 @@ const TableJadwal: React.FC = () => {
                 <div
                   tabIndex={0}
                   role="button"
-                  className="flex font-quick font-semibold m-1"
+                  className="flex font-quick font-semibold m-1 text-lg"
                 >
-                  <ChevronDownIcon className="w-5" />{" "}
+                  <ChevronDownIcon className="w-5 mr-2" />{" "}
                   {selectedDay
                     ? optionHari.find((h: any) => h.value === selectedDay)
                         ?.label
-                    : "Select Day"}
+                    : "Senin"}
                 </div>
                 <ul
                   tabIndex={0}
