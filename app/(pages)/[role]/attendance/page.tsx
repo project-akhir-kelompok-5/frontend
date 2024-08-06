@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import { Profile } from "next-auth"; 
-import { LoginPayload } from "../../(user)/interface/interface";
+import profile from "/public/images/profile.png";
+import logo from "/public/images/logo.png";
 import { Table, Th, Thead, Tr, Tbody, Td } from "@/component/Table";
 import {
   AcademicCapIcon,
