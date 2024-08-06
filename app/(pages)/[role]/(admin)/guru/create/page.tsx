@@ -5,12 +5,13 @@ import Label from "@/component/Label";
 import MultiSelect from "@/component/MultiSelect"; // Import the custom MultiSelect component
 import { useFormik, Form, FormikProvider } from "formik";
 import * as yup from "yup";
-import { CreateGuruPayload } from "../../../(guru)/interface";
-import useBookModule from "../../../(guru)/lib";
+import { CreateGuruPayload } from "@/app/lib/(guru)/interface";
+// import useBookModule from "../../../(guru)/lib";
 import Link from "next/link";
 import { ArrowLongLeftIcon } from "@heroicons/react/20/solid";
 import useOptions from "@/hook/useOption";
 import Select from "@/component/Select";
+import useCrudModule from "@/hook/useCRUD";
 
 export const createGuruSchema = yup.object().shape({
   nama: yup.string().required("Nama wajib diisi"),
@@ -28,8 +29,8 @@ export const createGuruSchema = yup.object().shape({
 });
 
 const CreateMapel = () => {
-  const { useCreateGuru } = useBookModule();
-  const { mutate, isLoading } = useCreateGuru();
+  const { useCreate } = useCrudModule();
+  const { mutate, isLoading } = useCreate<CreateGuruPayload>("/guru/register");
   const { optionMapel } = useOptions();
 
   const onSubmit = async (values: CreateGuruPayload) => {

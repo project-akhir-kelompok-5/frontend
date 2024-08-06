@@ -7,11 +7,11 @@ import { useFormik, Form, FormikProvider, FieldArray } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
 import { ArrowLongLeftIcon } from "@heroicons/react/20/solid";
-import { CreateJadwalPayload } from "@/app/(jadwal)/interface";
+import { CreateJadwalPayload } from "@/app/lib/(jadwal)/interface";
 import React from "react";
 import useOptions from "@/hook/useOption";
-import useJadwalModule from "@/app/(jadwal)/lib";
-import TeacherTable from "@/app/(user)/dashboard/component/TeacherSchedule";
+import TeacherTable from "../../../dashboard/component/TeacherSchedule";
+import useCrudModule from "@/hook/useCRUD";
 
 // Define KelasList here
 const KelasList = [
@@ -58,8 +58,10 @@ export const createJadwalSchema = yup.object().shape({
 });
 
 const CreateJadwal = () => {
-  const { useCreateJadwal } = useJadwalModule();
-  const { mutate, isLoading } = useCreateJadwal();
+  // const { useCreateJadwal } = useJadwalModule();
+  // const { mutate, isLoading } = useCreateJadwal();
+  const { useCreate } = useCrudModule()
+  const { mutate, isLoading } = useCreate<CreateJadwalPayload>("/jadwal/create");
 
   const { optionSubjectCode, optionHari } = useOptions();
   const optionKelas = generateKelasOptions();
@@ -67,8 +69,8 @@ const CreateJadwal = () => {
 
   const onSubmit = async (values: CreateJadwalPayload) => {
     // Ensure kelas values are correctly set using the map
-    values.jam_jadwal.forEach((jadwal) => {
-      jadwal.jam_detail.forEach((detail) => {
+    values.jam_jadwal.forEach((jadwal: any) => {
+      jadwal.jam_detail.forEach((detail: any) => {
         detail.kelas =
           kelasMap[
             optionKelas.find((opt) => opt.value === detail.kelas)?.label || ""
@@ -147,7 +149,7 @@ const CreateJadwal = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {values.jam_jadwal.map((jadwal, index) => (
+                        {values.jam_jadwal.map((jadwal: any, index: any) => (
                           <tr key={index}>
                             <td className="py-2 px-4 border">
                               <InputText
@@ -187,7 +189,7 @@ const CreateJadwal = () => {
                                     // Find existing detail or create a new one
                                     const detailIndex =
                                       jadwal.jam_detail.findIndex(
-                                        (d) => d.kelas === kelasOption.value
+                                        (d: any) => d.kelas === kelasOption.value
                                       );
                                     const detail =
                                       detailIndex > -1
@@ -272,7 +274,7 @@ const CreateJadwal = () => {
                                           // Clear subject_code values when is_rest is true
                                           setFieldValue(
                                             `jam_jadwal[${index}].jam_detail`,
-                                            jadwal.jam_detail.map((detail) => ({
+                                            jadwal.jam_detail.map((detail: any) => ({
                                               ...detail,
                                               subject_code: "",
                                             }))

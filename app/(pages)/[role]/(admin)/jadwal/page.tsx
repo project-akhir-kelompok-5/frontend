@@ -6,7 +6,7 @@ import { Formik, Form, Field, FormikProvider, useFormik } from "formik";
 import * as yup from "yup";
 import useOptions from "@/hook/useOption";
 // import { UpdateJadwalPayload } from "@/app/(jadwal)/interface/update";
-import { JadwalDetailResponses } from "@/app/(jadwal)/interface/detail";
+import { JadwalDetailResponses } from "@/app/lib/(jadwal)/interface/detail";
 
 export const updateJadwalSchema = yup.object().shape({
   hari_id: yup.number().nullable(),
@@ -52,12 +52,12 @@ const TableJadwal: React.FC = () => {
     if (dataJadwalDetail) {
       const newInitialValues: any = {
         hari_id: dataJadwalDetail.hari.id,
-        jam_jadwal: dataJadwalDetail.jam_jadwal.map((jam) => ({
+        jam_jadwal: dataJadwalDetail.jam_jadwal.map((jam: any) => ({
           id: jam.id,
           jam_mulai: jam.jam_mulai,
           jam_selesai: jam.jam_selesai,
           is_rest: jam.is_rest,
-          jam_detail: jam.jam_detail.map((d) => ({
+          jam_detail: jam.jam_detail.map((d: any) => ({
             id: d.id,
             subject_code: d.subject_code.code || "", // Retain existing value if empty
           })),

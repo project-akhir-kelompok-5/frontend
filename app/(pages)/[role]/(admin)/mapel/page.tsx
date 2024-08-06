@@ -1,13 +1,23 @@
 "use client";
 import { Table, Th, Thead, Tr, Tbody, Td } from "@/component/Table";
 import { useRouter } from "next/navigation";
-import useMapelModule from "../../(mapel)/lib";
+// import useMapelModule from "../../(mapel)/lib";
 import Button from "@/component/Button";
 import Link from "next/link";
+import useCrudModule from "@/hook/useCRUD";
+import { MapelListResponse } from "@/app/lib/(mapel)/interface";
+import { useQueryClient } from "@tanstack/react-query";
+
 
 const Mapel = () => {
-  const { useMapelSubjectList } = useMapelModule();
-  const { data, isFetching } = useMapelSubjectList();
+  const { useList, useDelete } = useCrudModule();
+  const { data, isFetching } = useList<MapelListResponse>("/mapel/list");
+  const { mutate, isLoading } = useDelete("/mapel/delete", "/mapel/list");
+  const queryClient = useQueryClient();
+
+  const handleDelete = (id:number) => {
+    mutate(id);
+  }
 
   return (
     <>
@@ -70,7 +80,9 @@ const Mapel = () => {
                     <Td className="flex flex-row justify-between w-36">
                       
                       <p className="text-blue-500 btn ml-8">Edit</p>
-                      <p className="text-red-500 btn ml-4">Delete</p>
+                      <p className="text-red-500 btn ml-4" onClick={() => {
+                        handleDelete(item.id || 0)
+                      }}>Delete</p>
                     </Td>
                   </Tr>
                 ))}

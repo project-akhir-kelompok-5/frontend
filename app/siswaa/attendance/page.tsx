@@ -1,16 +1,6 @@
 "use client";
 import Image from "next/image";
 import { Profile } from "next-auth"; 
-import { LoginPayload } from "../../(user)/interface/interface";
-import { Table, Th, Thead, Tr, Tbody, Td } from "@/component/Table";
-import {
-  AcademicCapIcon,
-  UsersIcon,
-  FunnelIcon,
-  MagnifyingGlassIcon,
-  ChevronDownIcon,
-  MapPinIcon,
-} from "@heroicons/react/20/solid";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
